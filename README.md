@@ -179,8 +179,7 @@ What is your favorite number of these?
 
 => {:value=>"one", :index=>0}
 
-> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', '
-two', 'three'], {default: 'three', required: true})
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
 What is your favorite number of these?
 1. one
 2. two
@@ -240,8 +239,7 @@ Notes:
 <details><summary>Examples</summary>
 
 ```ruby
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two',
-'three'])
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'])
 What are your favorite numbers of these?
 1. one
 2. two
@@ -249,7 +247,7 @@ What are your favorite numbers of these?
 1, 3
 => [{:value=>"one"}, {:value=>"three"}]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'] ,{with_indexes: true})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true})
 What are your favorite numbers of these?
 1. one
 2. two
@@ -257,8 +255,7 @@ What are your favorite numbers of these?
 1, 3
 => [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two',
-'three'], {defaults: ['two', 'three']})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
 What are your favorite numbers of these?
 1. one
 2. two
@@ -281,8 +278,7 @@ What are your favorite numbers of these?
 2
 => [{:value=>"two", :index=>1}]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two',
-'three'], {required: true, with_indexes: false})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
 What are your favorite numbers of these?
 1. one
 2. two
