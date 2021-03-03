@@ -155,13 +155,14 @@ Notes:
 <details><summary>Examples</summary>
 
 ```ruby
-> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'])
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', '
+two', 'three'])
 What is your favorite number of these?
 1. one
 2. two
 3. three
 2
-=> "two"
+=> {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true})
 What is your favorite number of these?
@@ -179,7 +180,8 @@ What is your favorite number of these?
 
 => {:value=>"one", :index=>0}
 
-> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', '
+two', 'three'], {default: 'three', required: true})
 What is your favorite number of these?
 1. one
 2. two
@@ -199,7 +201,7 @@ What is your favorite number of these?
 2. two
 3. three
 2
-=> "two"
+=> {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil})
 What is your favorite number of these?
@@ -229,7 +231,7 @@ Question configuration options:
 
 Notes:
 * If `required` is `true`, the question will repeat until the user answers the question
-* If `required` is `true`, then the defaults value will be ignored
+* If `required` is `true`, then the `defaults` value will be ignored (this value is defaulting to `[]`, but could be set to whatever and the code won't care... the question is required)
 * If `defaults` is `[]` and `required` is `false`, then the method will return an empty array
 * If `with_indexes` is `true`, an array of hashes will be returned with the choice AND the index in each hash
   * e.g. `[{ value: 'a', index: 0 }, { value: 'c', index: 2 }]`
@@ -239,13 +241,14 @@ Notes:
 <details><summary>Examples</summary>
 
 ```ruby
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'])
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two',
+'three'])
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
-1,3
-=> ["one", "three"]
+1, 3
+=> [{:value=>"one"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'] ,{with_indexes: true})
 What are your favorite numbers of these?
@@ -255,13 +258,14 @@ What are your favorite numbers of these?
 1, 3
 => [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two',
+'three'], {defaults: ['two', 'three']})
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
 
-=> ["two", "three"]
+=> [{:value=>"two"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: true})
 What are your favorite numbers of these?
@@ -278,7 +282,8 @@ What are your favorite numbers of these?
 2
 => [{:value=>"two", :index=>1}]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two',
+'three'], {required: true, with_indexes: false})
 What are your favorite numbers of these?
 1. one
 2. two
@@ -291,7 +296,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 1
-=> ["one"]
+=> [{:value=>"one"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: []})
 What are your favorite numbers of these?
