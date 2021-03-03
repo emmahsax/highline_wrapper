@@ -27,7 +27,7 @@ Or install it yourself as:
 gem install highline_wrapper
 ```
 
-### Usage
+## Usage
 
 Once this gem is installed, you can then initiate a new `HighlineWrapper` object:
 
@@ -43,7 +43,7 @@ require 'highline_wrapper'
 
 Then, you can call its questions to receive answers. There's several configuration options for each type of question. Look below for the different options for each type of question, and what they each return.
 
-#### Open-ended questions
+### Open-ended questions
 
 Question configuration options:
 * `secret`: defaults to `false`
@@ -93,7 +93,7 @@ Please type your private token:
 
 </details>
 
-#### Yes/No questions
+### Yes/No questions
 
 Question configuration options:
 * `default`: defaults to `true` (aka 'yes')
@@ -129,8 +129,7 @@ No
 
 </details>
 
-
-#### Multiple choice question
+### Multiple choice question
 
 Question configuration options:
 * `with_index`: defaults to `false`
@@ -205,7 +204,7 @@ What is your favorite number of these?
 
 </details>
 
-#### Multiple choice "checkbox" question
+### Multiple choice "checkbox" question
 
 Question configuration options:
 * `with_indexes`: defaults to `false`
@@ -288,7 +287,7 @@ What are your favorite numbers of these?
 
 </details>
 
-### Tests
+## Tests
 
 To run the tests, run `bundle exec rspec` from the command line. GitHub Actions will also run the tests upon every commit to make sure they're up to date and that everything is working correctly. Locally, you can also run `bundle exec guard` to automatically run tests as you develop!
 
