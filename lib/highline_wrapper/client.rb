@@ -2,49 +2,96 @@
 
 class HighlineWrapper
   class Client
-    def ask(prompt, secret)
-      highline.ask(prompt) do |conf|
+    def ask(prompt, options)
+      answer = highline.ask(prompt) do |conf|
         conf.readline = true
-        if secret
+        if options[:secret]
           conf.echo = false
           conf.echo = '*'
         end
       end.to_s
+
+      return answer unless answer.empty?
+
+      if options[:required]
+        puts "\nThis question is required.\n\n"
+        ask(prompt, options)
+      else
+        ''
+      end
     end
 
-    def ask_yes_no(prompt, preference)
+    def ask_yes_no(prompt, options)
       answer = highline.ask(prompt) do |conf|
         conf.readline = true
       end.to_s
 
-      answer.empty? ? preference : !!(answer =~ /^y/i)
-    end
+      return !!(answer =~ /^y/i) unless answer.empty?
 
-    def ask_multiple_choice(prompt, choices, with_index)
-      index = highline.ask(format_options(prompt, choices)) do |conf|
-        conf.readline = true
-      end.to_i - 1
-
-      if with_index
-        { choice: choices[index], index: index }
+      if options[:required]
+        puts "\nThis question is required.\n\n"
+        ask_yes_no(prompt, options)
       else
-        choices[index]
+        puts
+        options[:default]
       end
     end
 
     # rubocop:disable Metrics/AbcSize
-    # rubocop:disable Metrics/MethodLength
-    def ask_checkbox(prompt, choices, provide_indices)
+    def ask_multiple_choice(prompt, choices, options)
+      index = highline.ask(format_options(prompt, choices)) do |conf|
+        conf.readline = true
+      end.to_i - 1
+
+      return determine_multiple_choice_selection(choices, index, options[:with_index]) unless index == -1
+
+      if options[:required]
+        puts "\nThis question is required.\n\n"
+        ask_multiple_choice(prompt, choices, options)
+      else
+        puts
+
+        return nil if options[:default].nil?
+
+        determine_multiple_choice_selection(choices, choices.index(options[:default]), options[:with_index])
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    # rubocop:disable Metrics/AbcSize
+    def ask_checkbox(prompt, choices, options)
       indices = []
-      selected = []
 
       answer = highline.ask(format_options(prompt, choices)) do |conf|
         conf.readline = true
-      end
+      end.to_s
 
       answer.split(',').each { |i| indices << i.strip.to_i - 1 }
 
-      if provide_indices
+      return determine_checkbox_selections(choices, indices, options[:with_indexes]) unless indices.empty?
+
+      if options[:required]
+        puts "\nThis question is required.\n\n"
+        ask_checkbox(prompt, choices, options)
+      else
+        puts
+
+        return options[:defaults] if options[:defaults].empty?
+
+        indices = options[:defaults].map { |d| choices.index(d) }
+        determine_checkbox_selections(choices, indices, options[:with_indexes])
+      end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    private def determine_multiple_choice_selection(choices, index, with_index)
+      with_index ? { choice: choices[index], index: index } : choices[index]
+    end
+
+    private def determine_checkbox_selections(choices, indices, with_indexes)
+      selected = []
+
+      if with_indexes
         indices.each { |index| selected << { choice: choices[index], index: index } }
       else
         indices.each { |index| selected << choices[index] }
@@ -52,8 +99,6 @@ class HighlineWrapper
 
       selected
     end
-    # rubocop:enable Metrics/MethodLength
-    # rubocop:enable Metrics/AbcSize
 
     private def format_options(prompt, choices)
       choices_as_string_options = ''.dup

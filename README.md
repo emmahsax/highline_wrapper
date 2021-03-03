@@ -41,7 +41,15 @@ Then, add this to the top of your file (or to your gem):
 require 'highline_wrapper'
 ```
 
-Then, you can call its questions to receive answers:
+Then, you can call its questions to receive answers. There's several configuration options for each type of question. Look below for the different options for each type of question, and what they each return.
+
+#### Open-ended questions
+
+Question configuration options:
+* `secret`: defaults to `false`
+* `required`: defaults to `false`
+
+<details><summary>Examples</summary>
 
 ```ruby
 > HighlineWrapper.new.ask('What is your favorite number?')
@@ -49,6 +57,51 @@ What is your favorite number?
 four
 => "four"
 
+> HighlineWrapper.new.ask('What is your favorite number?', {required: true})
+What is your favorite number?
+
+This question is required.
+
+What is your favorite number?
+
+This question is required.
+
+What is your favorite number?
+2
+=> "2"
+
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true})
+Please type your private token:
+****************
+=> "MY-PRIVATE-TOKEN"
+
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true, required: true})
+Please type your private token:
+
+
+This question is required.
+
+Please type your private token:
+
+
+This question is required.
+
+Please type your private token:
+****************
+=> "MY-PRIVATE-TOKEN"
+```
+
+</details>
+
+#### Yes/No questions
+
+Question configuration options:
+* `default`: defaults to `true` (aka 'yes')
+* `required`: defaults to `false`
+
+<details><summary>Examples</summary>
+
+```ruby
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
 no
@@ -59,8 +112,35 @@ Do you like Ruby?
 yes
 => true
 
-HighlineWrapper.new.ask_multiple_choice('What is your favorite number of t
-hese?', ['one', 'two', 'three'])
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {default: true})
+Do you like Ruby?
+
+=> true
+
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {required: true})
+Do you like Ruby?
+
+This question is required.
+
+Do you like Ruby?
+No
+=> false
+```
+
+</details>
+
+
+#### Multiple choice question
+
+Question configuration options:
+* `with_index`: defaults to `false`
+* `default`: defaults to `nil`
+* `required`: defaults to `false`
+
+<details><summary>Examples</summary>
+
+```ruby
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'])
 What is your favorite number of these?
 1. one
 2. two
@@ -68,8 +148,74 @@ What is your favorite number of these?
 2
 => "two"
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?
-", ['one', 'two','three'])
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+2
+=> {:choice=>"two", :index=>1}
+
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one'})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+=> {:choice=>"one", :index=>0}
+
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+This question is required.
+
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+This question is required.
+
+What is your favorite number of these?
+1. one
+2. two
+3. three
+2
+=> "two"
+
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+=> nil
+
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+=> nil
+```
+
+</details>
+
+#### Multiple choice "checkbox" question
+
+Question configuration options:
+* `with_indexes`: defaults to `false`
+* `defaults`: defaults to `[]`
+* `required`: defaults to `false`
+
+<details><summary>Examples</summary>
+
+```ruby
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'])
 What are your favorite numbers of these?
 1. one
 2. two
@@ -77,15 +223,70 @@ What are your favorite numbers of these?
 1,3
 => ["one", "three"]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?
-", ['one', 'two','three'], with_indexes: true)
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'] ,{with_indexes: true})
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
 1, 3
 => [{:choice=>"one", :index=>0}, {:choice=>"three", :index=>2}]
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+
+=> ["two", "three"]
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: true})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+
+This question is required.
+
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+2
+=> [{:choice=>"two", :index=>1}]
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+
+This question is required.
+
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+1
+=> ["one"]
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: []})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+
+=> []
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: [], with_indexes: true})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+
+=> []
 ```
+
+</details>
 
 ### Tests
 
