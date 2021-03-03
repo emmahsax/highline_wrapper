@@ -14,9 +14,10 @@ class HighlineWrapper
       return answer unless answer.empty?
 
       if options[:required]
-        puts "\nThis question is required.\n\n"
+        puts "#{options[:secret] ? '' : "\n"}This question is required.\n\n"
         ask(prompt, options)
       else
+        puts
         ''
       end
     end

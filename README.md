@@ -71,22 +71,24 @@ What is your favorite number?
 => "2"
 
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
-Please type your private token:
+Please type your private token?
 ****************
 => "MY-PRIVATE-TOKEN"
 
-> HighlineWrapper.new.ask('Please type your private token:', {secret: true, required: true})
-Please type your private token:
-
-
-This question is required.
-
-Please type your private token:
-
+> HighlineWrapper.new.ask('What is your private token?', {secret: true, required: true})
+What is your private token?
 
 This question is required.
 
-Please type your private token:
+What is your private token?
+
+This question is required.
+
+What is your private token?
+
+This question is required.
+
+What is your private token?
 ****************
 => "MY-PRIVATE-TOKEN"
 ```
