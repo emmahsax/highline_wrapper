@@ -64,9 +64,9 @@ describe HighlineWrapper do
 
     context 'when we ask for an index in the options' do
       it 'should return a string AND an integer index' do
-        allow(highline_client).to receive(:ask_multiple_choice).and_return({ choice: 'one', index: 0 })
+        allow(highline_client).to receive(:ask_multiple_choice).and_return({ value: 'one', index: 0 })
         resp = subject.ask_multiple_choice(Faker::Lorem.sentence, choices, { with_index: true })
-        expect(resp[:choice]).to eq('one')
+        expect(resp[:value]).to eq('one')
         expect(resp[:index]).to eq(0)
       end
     end
@@ -88,10 +88,10 @@ describe HighlineWrapper do
 
     context 'when we ask for an index in the options' do
       it 'should return a string AND an integer index' do
-        allow(highline_client).to receive(:ask_checkbox).and_return([{ choice: 'one', index: 0 }, { choice: 'three', index: 2 }])
+        allow(highline_client).to receive(:ask_checkbox).and_return([{ value: 'one', index: 0 }, { value: 'three', index: 2 }])
         resp = subject.ask_checkbox(Faker::Lorem.sentence, choices, { with_indexes: true })
-        expect(resp).to include({ choice: 'one', index: 0 })
-        expect(resp.last[:choice]).to eq('three')
+        expect(resp).to include({ value: 'one', index: 0 })
+        expect(resp.last[:value]).to eq('three')
       end
     end
   end

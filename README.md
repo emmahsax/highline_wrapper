@@ -160,7 +160,7 @@ What is your favorite number of these?
 2. two
 3. three
 2
-=> {:choice=>"two", :index=>1}
+=> {:value=>"two", :index=>1}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one'})
 What is your favorite number of these?
@@ -168,7 +168,7 @@ What is your favorite number of these?
 2. two
 3. three
 
-=> {:choice=>"one", :index=>0}
+=> {:value=>"one", :index=>0}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
 What is your favorite number of these?
@@ -235,7 +235,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
-=> [{:choice=>"one", :index=>0}, {:choice=>"three", :index=>2}]
+=> [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
 What are your favorite numbers of these?
@@ -258,7 +258,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 2
-=> [{:choice=>"two", :index=>1}]
+=> [{:value=>"two", :index=>1}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
 What are your favorite numbers of these?

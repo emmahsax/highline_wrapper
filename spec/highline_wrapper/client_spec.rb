@@ -197,7 +197,7 @@ describe HighlineWrapper::Client do
         it 'should return the value the user selects' do
           allow(highline).to receive(:ask).and_return(1)
           resp = subject.ask_multiple_choice(Faker::Lorem.sentence, choices, options)
-          expect(resp).to eq({ choice: 'one', index: 0 })
+          expect(resp).to eq({ value: 'one', index: 0 })
         end
 
         it 'should recurse multiple times if the user skips' do
@@ -268,13 +268,13 @@ describe HighlineWrapper::Client do
           it 'should return the value the user selects' do
             allow(highline).to receive(:ask).and_return(1)
             resp = subject.ask_multiple_choice(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq({ choice: 'one', index: 0 })
+            expect(resp).to eq({ value: 'one', index: 0 })
           end
 
           it 'should return the default if the user skips' do
             allow(highline).to receive(:ask).and_return(0)
             resp = subject.ask_multiple_choice(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq({ choice: 'two', index: 1 })
+            expect(resp).to eq({ value: 'two', index: 1 })
           end
         end
 
@@ -290,7 +290,7 @@ describe HighlineWrapper::Client do
           it 'should return the value the user selects' do
             allow(highline).to receive(:ask).and_return(1)
             resp = subject.ask_multiple_choice(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq({ choice: 'one', index: 0 })
+            expect(resp).to eq({ value: 'one', index: 0 })
           end
 
           it 'should return nil if the user skips' do
@@ -366,7 +366,7 @@ describe HighlineWrapper::Client do
         it 'should return the value the user selects' do
           allow(highline).to receive(:ask).and_return('1, 3')
           resp = subject.ask_checkbox(Faker::Lorem.sentence, choices, options)
-          expect(resp).to eq([{ choice: 'one', index: 0 }, { choice: 'three', index: 2 }])
+          expect(resp).to eq([{ value: 'one', index: 0 }, { value: 'three', index: 2 }])
         end
 
         it 'should recurse multiple times if the user skips' do
@@ -437,13 +437,13 @@ describe HighlineWrapper::Client do
           it 'should return the value the user selects' do
             allow(highline).to receive(:ask).and_return('1,2')
             resp = subject.ask_checkbox(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq([{ choice: 'one', index: 0 }, { choice: 'two', index: 1 }])
+            expect(resp).to eq([{ value: 'one', index: 0 }, { value: 'two', index: 1 }])
           end
 
           it 'should return the default if the user skips' do
             allow(highline).to receive(:ask).and_return('')
             resp = subject.ask_checkbox(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq([{ choice: 'two', index: 1 }])
+            expect(resp).to eq([{ value: 'two', index: 1 }])
           end
         end
 
@@ -459,7 +459,7 @@ describe HighlineWrapper::Client do
           it 'should return the value the user selects' do
             allow(highline).to receive(:ask).and_return('1')
             resp = subject.ask_checkbox(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq([{ choice: 'one', index: 0 }])
+            expect(resp).to eq([{ value: 'one', index: 0 }])
           end
 
           it 'should return [] if the user skips' do
