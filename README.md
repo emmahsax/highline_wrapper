@@ -56,6 +56,7 @@ Question configuration options:
 > HighlineWrapper.new.ask('What is your favorite number?')
 What is your favorite number?
 four
+
 => "four"
 
 > HighlineWrapper.new.ask('What is your favorite number?', {required: true})
@@ -69,6 +70,7 @@ This question is required.
 
 What is your favorite number?
 2
+
 => "2"
 
 > HighlineWrapper.new.ask('What is your favorite color?')
@@ -84,6 +86,7 @@ What is your favorite color?
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
 Please type your private token?
 ****************
+
 => "MY-PRIVATE-TOKEN"
 
 > HighlineWrapper.new.ask('What is your private token?', {secret: true, required: true})
@@ -101,6 +104,7 @@ This question is required.
 
 What is your private token?
 ****************
+
 => "MY-PRIVATE-TOKEN"
 ```
 
@@ -118,17 +122,19 @@ Question configuration options:
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
 no
+
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
 yes
+
 => true
 
-> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {default: true})
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {default: false})
 Do you like Ruby?
 
-=> true
+=> false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {required: true})
 Do you like Ruby?
@@ -137,7 +143,19 @@ This question is required.
 
 Do you like Ruby?
 No
+
 => false
+
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
+Do you like Ruby?
+uh-huh
+
+This question is required.
+
+Do you like Ruby?
+YES
+
+=> true
 ```
 
 </details>
@@ -167,6 +185,7 @@ What is your favorite number of these?
 2. two
 3. three
 2
+
 => {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true})
@@ -175,6 +194,7 @@ What is your favorite number of these?
 2. two
 3. three
 2
+
 => {:value=>"two", :index=>1}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one'})
@@ -205,6 +225,7 @@ What is your favorite number of these?
 2. two
 3. three
 2
+
 => {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil})
@@ -251,6 +272,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
+
 => [{:value=>"one"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true})
@@ -259,6 +281,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
+
 => [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
@@ -282,6 +305,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 2
+
 => [{:value=>"two", :index=>1}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
@@ -297,6 +321,7 @@ What are your favorite numbers of these?
 2. two
 3. three
 1
+
 => [{:value=>"one"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: []})

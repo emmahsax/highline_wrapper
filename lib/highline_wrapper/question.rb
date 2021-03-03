@@ -6,11 +6,7 @@ class HighlineWrapper
       def ask_highline(prompt, secret: false)
         highline.ask(prompt) do |conf|
           conf.readline = true
-
-          if secret
-            conf.echo = false
-            conf.echo = '*'
-          end
+          conf.echo = '*' if secret
         end
       end
 
@@ -27,7 +23,7 @@ class HighlineWrapper
       end
 
       def recurse(prompt, choices, options)
-        puts "#{options[:secret] ? '' : "\n"}This question is required.\n\n"
+        puts "This question is required.\n\n"
         choices.nil? ? ask(prompt, options) : ask(prompt, choices, options)
       end
 
