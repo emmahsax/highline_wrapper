@@ -139,9 +139,18 @@ No
 ### Multiple choice question
 
 Question configuration options:
-* `with_index`: defaults to `false`
+* `with_index`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `default`: defaults to `nil`
 * `required`: defaults to `false`
+
+Notes:
+* If `required` is `true`, the question will repeat until the user answers the question
+* If `required` is `true`, then the `default` value will be ignored (defaults to `nil`, but could be set to whatever and the code won't care... the question is required)
+* If `default` is `nil` and `required` is `false`, and the user skips the question, the answer will be `nil`
+* If `with_index` is `true`, a hash will be returned with the choice AND the index
+  * e.g. `{ value: 'c', index: 2 }`
+* If `with_index` is `false`, then a hash of one item will be returned
+  * e.g. `{ value: 'c' }`
 
 <details><summary>Examples</summary>
 
@@ -214,9 +223,18 @@ What is your favorite number of these?
 ### Multiple choice "checkbox" question
 
 Question configuration options:
-* `with_indexes`: defaults to `false`
+* `with_indexes`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `defaults`: defaults to `[]`
 * `required`: defaults to `false`
+
+Notes:
+* If `required` is `true`, the question will repeat until the user answers the question
+* If `required` is `true`, then the defaults value will be ignored
+* If `defaults` is `[]` and `required` is `false`, then the method will return an empty array
+* If `with_indexes` is `true`, an array of hashes will be returned with the choice AND the index in each hash
+  * e.g. `[{ value: 'a', index: 0 }, { value: 'c', index: 2 }]`
+* If `with_indexes` is `false`, then an hashes will be returned where each hash only has a value
+  * e.g. `[{ value: 'a' }, { value: 'c' }]`
 
 <details><summary>Examples</summary>
 

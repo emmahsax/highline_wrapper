@@ -86,16 +86,18 @@ class HighlineWrapper
     # rubocop:enable Metrics/AbcSize
 
     private def determine_multiple_choice_selection(choices, index, with_index)
-      with_index ? { value: choices[index], index: index } : choices[index]
+      response = { value: choices[index] }
+      response[:index] = index if with_index
+      response
     end
 
     private def determine_checkbox_selections(choices, indices, with_indexes)
       selected = []
 
-      if with_indexes
-        indices.each { |index| selected << { value: choices[index], index: index } }
-      else
-        indices.each { |index| selected << choices[index] }
+      indices.each do |index|
+        response = { value: choices[index] }
+        response[:index] = index if with_indexes
+        selected << response
       end
 
       selected

@@ -57,7 +57,9 @@ class HighlineWrapper
     client.ask_yes_no(prompt, options)
   end
 
-  # Returns: the selection (string OR hash) (e.g. 'c' OR { value: 'c', index: 2 })
+  # Returns: the selection in a hash (hash)
+  #   e.g. { value: 'c' }
+  #   e.g. { value: 'c', index: 2 }
   #
   # prompt: the prompt for the question (string)
   # choices: a list of string options (array) (e.g. [ 'a', 'b', 'c' ])
@@ -70,14 +72,14 @@ class HighlineWrapper
   #   If required == true, the question will repeat until the user answers the question
   #   If required == true, then the default value will be ignored
   #   If default == nil and required == false, and the user skips the question, the answer will be nil
-  #   If with_index == true, a hash will be returned with the choice AND the index
-  #     e.g. { value: 'c', index: 2 }
   def ask_multiple_choice(prompt, choices, options = {})
     options = MULTIPLE_CHOICE_DEFAULTS.merge(options)
     client.ask_multiple_choice(prompt, choices, options)
   end
 
-  # Returns: the selections chosen (array) (e.g. ['a', 'c'] OR [{ value: 'a', index: 0 }, { value: 'c', index: 2 }])
+  # Returns: the selections chosen as an array of hashes (array)
+  #   e.g. [{ value: 'a' }, { value: 'c' }]
+  #   e.g. [{ value: 'a', index: 0 }, { value: 'c', index: 2 }])
   #
   # prompt: the prompt for the question (string)
   # choices: a list of string options (array) (e.g. [ 'a', 'b', 'c' ])
@@ -90,8 +92,6 @@ class HighlineWrapper
   #   If required == true, the question will repeat until the user answers the question
   #   If required == true, then the defaults value will be ignored
   #   If defaults == [] and required == false, then the method will return an empty array
-  #   If with_indexes == true, an array of hashes will be returned with the value AND the index
-  #     e.g. [ { value: 'a', index: 0 }, { value: 'c', index: 2 } ]
   def ask_checkbox(prompt, choices, options = {})
     options = CHECKBOX_DEFAULTS.merge(options)
     client.ask_checkbox(prompt, choices, options)
