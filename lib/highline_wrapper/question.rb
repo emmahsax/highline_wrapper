@@ -3,8 +3,15 @@
 class HighlineWrapper
   class Question
     class << self
-      def highline
-        @highline = HighLine.new
+      def ask_highline(prompt, secret: false)
+        highline.ask(prompt) do |conf|
+          conf.readline = true
+
+          if secret
+            conf.echo = false
+            conf.echo = '*'
+          end
+        end
       end
 
       def format_options(prompt, choices)
@@ -22,6 +29,10 @@ class HighlineWrapper
       def recurse(prompt, choices, options)
         puts "#{options[:secret] ? '' : "\n"}This question is required.\n\n"
         choices.nil? ? ask(prompt, options) : ask(prompt, choices, options)
+      end
+
+      private def highline
+        @highline ||= HighLine.new
       end
     end
   end

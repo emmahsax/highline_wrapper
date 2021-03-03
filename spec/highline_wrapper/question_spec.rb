@@ -12,12 +12,28 @@ describe HighlineWrapper::Question do
     allow(subject).to receive(:puts)
   end
 
+  after do
+    HighlineWrapper::Question.instance_variable_set('@highline', nil)
+  end
+
   subject { HighlineWrapper::Question }
 
   describe '#highline' do
     it 'should start a new highline client' do
       expect(HighLine).to receive(:new)
-      subject.highline
+      subject.send(:highline)
+    end
+  end
+
+  describe '#ask_highline' do
+    it 'should ask the highline client a question' do
+      expect(HighLine).to receive(:new)
+      subject.send(:ask_highline, Faker::Lorem.sentence)
+    end
+
+    it 'should accept an optional secret parameter' do
+      expect(HighLine).to receive(:new)
+      subject.send(:ask_highline, Faker::Lorem.sentence, secret: true)
     end
   end
 
