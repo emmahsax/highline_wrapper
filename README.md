@@ -147,7 +147,7 @@ Notes:
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `nil`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `nil` and `required` is `false`, and the user skips the question, the answer will be `nil`
-* If `with_index` is `true`, a hash will be returned with the choice AND the index
+* If `with_index` is `true`, a hash will be returned with the choice AND the index of the selection in the original `choices` array
   * e.g. `{ value: 'c', index: 2 }`
 * If `with_index` is `false`, then a hash of one item will be returned
   * e.g. `{ value: 'c' }`
@@ -155,8 +155,7 @@ Notes:
 <details><summary>Examples</summary>
 
 ```ruby
-> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', '
-two', 'three'])
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'])
 What is your favorite number of these?
 1. one
 2. two
@@ -233,7 +232,7 @@ Notes:
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `defaults` value will be ignored (this value is defaulting to `[]`, but could be set to whatever and the code won't care... the question is required)
 * If `defaults` is `[]` and `required` is `false`, then the method will return an empty array
-* If `with_indexes` is `true`, an array of hashes will be returned with the choice AND the index in each hash
+* If `with_indexes` is `true`, an array of hashes will be returned with the choice AND the index (of the selection in the original `choices` array) in each hash
   * e.g. `[{ value: 'a', index: 0 }, { value: 'c', index: 2 }]`
 * If `with_indexes` is `false`, then an hashes will be returned where each hash only has a value
   * e.g. `[{ value: 'a' }, { value: 'c' }]`
