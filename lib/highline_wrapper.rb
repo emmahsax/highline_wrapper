@@ -14,13 +14,16 @@ class HighlineWrapper
   # prompt: the prompt for the question (string)
   # options: various options to pass to the questions (hash)
   #   secret: whether the terminal should hide the typed value (boolean - defaults to false)
+  #   default: the default selection (string - defaults to '')
   #   required: whether the question is required or not (boolean - defaults to false)
   #
   # Notes:
   #  If required == true, the question will repeat until the user answers the question
+  #  If required == true, then the default value will be ignored
   def ask(prompt, options = {})
     defaults = {
       secret: false,
+      default: '',
       required: false
     }
     options = defaults.merge(options)

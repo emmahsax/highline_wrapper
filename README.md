@@ -47,6 +47,7 @@ Then, you can call its questions to receive answers. There's several configurati
 
 Question configuration options:
 * `secret`: defaults to `false`
+* `default`: defaults to `''`
 * `required`: defaults to `false`
 
 <details><summary>Examples</summary>
@@ -74,6 +75,11 @@ What is your favorite number?
 What is your favorite color?
 
 => ""
+
+> HighlineWrapper.new.ask('What is your favorite color?', {default: 'orange'})
+What is your favorite color?
+
+=> "orange"
 
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
 Please type your private token?

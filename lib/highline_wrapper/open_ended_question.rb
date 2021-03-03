@@ -12,7 +12,7 @@ class HighlineWrapper
         return recurse(prompt, nil, options) if options[:required]
 
         puts
-        ''
+        options[:default]
       end
     end
   end

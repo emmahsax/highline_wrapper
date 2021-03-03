@@ -22,6 +22,7 @@ describe HighlineWrapper::OpenEndedQuestion do
     let(:options) do
       {
         secret: false,
+        default: '',
         required: false
       }
     end
@@ -49,6 +50,7 @@ describe HighlineWrapper::OpenEndedQuestion do
     let(:options) do
       {
         secret: false,
+        default: 'something-goes-here',
         required: true
       }
     end
@@ -64,6 +66,29 @@ describe HighlineWrapper::OpenEndedQuestion do
       allow(highline).to receive(:ask).and_return('', '', Faker::Lorem.sentence)
       expect(subject).to receive(:ask).exactly(3).times.and_call_original
       subject.ask(Faker::Lorem.sentence, options)
+    end
+  end
+
+  context 'with the default set and the required set to false' do
+    let(:default_string) { Faker::Lorem.sentence }
+    let(:options) do
+      {
+        secret: false,
+        default: default_string,
+        required: false
+      }
+    end
+
+    it 'should return the value the user selects' do
+      answer = Faker::Lorem.sentence
+      allow(highline).to receive(:ask).and_return(answer)
+      resp = subject.ask(Faker::Lorem.sentence, options)
+      expect(resp).to eq(answer)
+    end
+
+    it 'should return the default value the user skips' do
+      allow(highline).to receive(:ask).and_return('')
+      expect(subject.ask(Faker::Lorem.sentence, options)).to eq(default_string)
     end
   end
 end
