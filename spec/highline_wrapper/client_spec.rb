@@ -391,7 +391,7 @@ describe HighlineWrapper::Client do
           it 'should return the value the user selects' do
             allow(highline).to receive(:ask).and_return('1, 2')
             resp = subject.ask_checkbox(Faker::Lorem.sentence, choices, options)
-            expect(resp).to eq([{ value: "one" }, { value: 'two' }])
+            expect(resp).to eq([{ value: 'one' }, { value: 'two' }])
           end
 
           it 'should return the default if the user skips' do
