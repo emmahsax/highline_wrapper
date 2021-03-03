@@ -70,6 +70,11 @@ What is your favorite number?
 2
 => "2"
 
+> HighlineWrapper.new.ask('What is your favorite color?')
+What is your favorite color?
+
+=> ""
+
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
 Please type your private token?
 ****************
