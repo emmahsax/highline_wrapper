@@ -34,13 +34,13 @@ describe HighlineWrapper::Question do
 
     context 'with_index as false' do
       it 'should format the selection based on the index into a hash' do
-        expect(subject.format_selections(choices, index, false)).to eq({ value: 'two' })
+        expect(subject.format_selection(choices, index, false)).to eq({ value: 'two' })
       end
     end
 
     context 'with_index as true' do
       it 'should format the selection based on the index into a hash' do
-        expect(subject.format_selections(choices, index, true)).to eq({ value: 'two', index: 1 })
+        expect(subject.format_selection(choices, index, true)).to eq({ value: 'two', index: 1 })
       end
     end
   end

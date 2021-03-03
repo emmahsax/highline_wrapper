@@ -13,7 +13,7 @@ class HighlineWrapper
         "#{prompt}\n#{choices_as_string_options.strip}"
       end
 
-      def format_selections(choices, index, with_index)
+      def format_selection(choices, index, with_index)
         response = { value: choices[index] }
         response[:index] = index if with_index
         response

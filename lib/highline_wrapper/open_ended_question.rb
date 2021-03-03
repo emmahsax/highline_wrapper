@@ -6,13 +6,7 @@ class HighlineWrapper
   class OpenEndedQuestion < Question
     class << self
       def ask(prompt, options)
-        answer = highline.ask(prompt) do |conf|
-          conf.readline = true
-          if options[:secret]
-            conf.echo = false
-            conf.echo = '*'
-          end
-        end.to_s
+        answer = ask_highline(prompt)
 
         return answer unless answer.empty?
 
@@ -23,6 +17,16 @@ class HighlineWrapper
           puts
           ''
         end
+      end
+
+      private def ask_highline(prompt)
+        highline.ask(prompt) do |conf|
+          conf.readline = true
+          if options[:secret]
+            conf.echo = false
+            conf.echo = '*'
+          end
+        end.to_s
       end
     end
   end
