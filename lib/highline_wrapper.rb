@@ -9,25 +9,6 @@ Dir[files].each do |file|
 end
 
 class HighlineWrapper
-  OPEN_ENDED_DEFAULTS = {
-    secret: false,
-    required: false
-  }.freeze
-  YES_NO_DEFAULTS = {
-    default: true,
-    required: false
-  }.freeze
-  MULTIPLE_CHOICE_DEFAULTS = {
-    with_index: false,
-    default: nil,
-    required: false
-  }.freeze
-  CHECKBOX_DEFAULTS = {
-    with_indexes: false,
-    defaults: [],
-    required: false
-  }.freeze
-
   # Returns: the answer to the question (string)
   #
   # prompt: the prompt for the question (string)
@@ -38,7 +19,11 @@ class HighlineWrapper
   # Notes:
   #  If required == true, the question will repeat until the user answers the question
   def ask(prompt, options = {})
-    options = OPEN_ENDED_DEFAULTS.merge(options)
+    defaults = {
+      secret: false,
+      required: false
+    }
+    options = defaults.merge(options)
     HighlineWrapper::OpenEndedQuestion.ask(prompt, options)
   end
 
@@ -53,7 +38,11 @@ class HighlineWrapper
   #  If required == true, the question will repeat until the user answers the question
   #  If required == true, then the default value will be ignored
   def ask_yes_no(prompt, options = {})
-    options = YES_NO_DEFAULTS.merge(options)
+    defaults = {
+      default: true,
+      required: false
+    }
+    options = defaults.merge(options)
     HighlineWrapper::YesNoQuestion.ask(prompt, options)
   end
 
@@ -73,7 +62,12 @@ class HighlineWrapper
   #   If required == true, then the default value will be ignored
   #   If default == nil and required == false, and the user skips the question, the answer will be nil
   def ask_multiple_choice(prompt, choices, options = {})
-    options = MULTIPLE_CHOICE_DEFAULTS.merge(options)
+    defaults = {
+      with_index: false,
+      default: nil,
+      required: false
+    }
+    options = defaults.merge(options)
     HighlineWrapper::MultipleChoiceQuestion.ask(prompt, choices, options)
   end
 
@@ -93,7 +87,12 @@ class HighlineWrapper
   #   If required == true, then the defaults value will be ignored
   #   If defaults == [] and required == false, then the method will return an empty array
   def ask_checkbox(prompt, choices, options = {})
-    options = CHECKBOX_DEFAULTS.merge(options)
+    defaults = {
+      with_indexes: false,
+      defaults: [],
+      required: false
+    }
+    options = defaults.merge(options)
     HighlineWrapper::CheckboxQuestion.ask(prompt, choices, options)
   end
 end

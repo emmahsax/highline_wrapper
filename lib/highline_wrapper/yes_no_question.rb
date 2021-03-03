@@ -9,14 +9,10 @@ class HighlineWrapper
         answer = ask_highline(prompt)
 
         return !!(answer =~ /^y/i) unless answer.empty?
+        return recurse(prompt, nil, options) if options[:required]
 
-        if options[:required]
-          puts "\nThis question is required.\n\n"
-          ask(prompt, options)
-        else
-          puts
-          options[:default]
-        end
+        puts
+        options[:default]
       end
 
       private def ask_highline(prompt)

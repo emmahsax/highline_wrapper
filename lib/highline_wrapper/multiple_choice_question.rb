@@ -17,15 +17,11 @@ class HighlineWrapper
 
         format_selection(choices, choices.index(options[:default]), options[:with_index])
       end
+
       private def ask_highline(prompt, choices)
         highline.ask(format_options(prompt, choices)) do |conf|
           conf.readline = true
         end.to_i - 1
-      end
-
-      private def recurse(prompt, choices, options)
-        puts "\nThis question is required.\n\n"
-        ask(prompt, choices, options)
       end
     end
   end

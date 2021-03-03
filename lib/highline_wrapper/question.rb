@@ -18,6 +18,11 @@ class HighlineWrapper
         response[:index] = index if with_index
         response
       end
+
+      def recurse(prompt, choices, options)
+        puts "#{options[:secret] ? '' : "\n"}This question is required.\n\n"
+        choices.nil? ? ask(prompt, options) : ask(prompt, choices, options)
+      end
     end
   end
 end

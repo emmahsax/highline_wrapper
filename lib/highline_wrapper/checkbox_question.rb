@@ -21,16 +21,12 @@ class HighlineWrapper
       private def ask_highline(prompt, choices)
         indices = []
 
-        highline.ask(format_options(prompt, choices)) do |conf|
+        ans = highline.ask(format_options(prompt, choices)) do |conf|
           conf.readline = true
-        end.to_s.split(',').each { |i| indices << i.strip.to_i - 1 }
+        end.to_s
+        ans.split(',').each { |i| indices << i.strip.to_i - 1 }
 
         indices
-      end
-
-      private def recurse(prompt, choices, options)
-        puts "\nThis question is required.\n\n"
-        ask(prompt, choices, options)
       end
 
       private def format_multiple_selections(choices, indices, with_indexes)
