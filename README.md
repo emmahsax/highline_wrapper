@@ -50,6 +50,12 @@ Question configuration options:
 * `default`: defaults to `''`
 * `required`: defaults to `false`
 
+Notes:
+* If `required` is `true`, the question will repeat until the user answers the question
+* If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
+* If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
+* If `secret` is `true`, then the command line will hide the user's answer behind `*`
+
 <details><summary>Examples</summary>
 
 ```ruby
@@ -115,6 +121,11 @@ What is your private token?
 Question configuration options:
 * `default`: defaults to `true` (aka 'yes')
 * `required`: defaults to `false`
+
+Notes:
+* If `required` is `true`, the question will repeat until the user answers the question
+* If `required` is `true`, then the `default` value will be ignored (defaults to `true`, but could be set to whatever and the code won't care... the question is required)
+* If `default` is `true` and `required` is `false`, and the user skips the question, the answer will be `true`
 
 <details><summary>Examples</summary>
 
