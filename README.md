@@ -54,7 +54,7 @@ Notes:
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
-* If `secret` is `true`, then the command line will hide the user's answer behind `*`
+* If `secret` is `true`, then the command-line will hide the user's answer behind `*`
 
 <details><summary>Examples</summary>
 
@@ -356,7 +356,7 @@ What are your favorite numbers of these?
 
 ## Tests
 
-To run the tests, run `bundle exec rspec` from the command line. GitHub Actions will also run the tests upon every commit to make sure they're up to date and that everything is working correctly. Locally, you can also run `bundle exec guard` to automatically run tests as you develop!
+To run the tests, run `bundle exec rspec` from the command-line. GitHub Actions will also run the tests upon every commit to make sure they're up to date and that everything is working correctly. Locally, you can also run `bundle exec guard` to automatically run tests as you develop!
 
 ## Contributing
 
