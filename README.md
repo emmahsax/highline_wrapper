@@ -160,7 +160,7 @@ YES
 
 </details>
 
-### Multiple choice question
+### Multiple choice questions
 
 Question configuration options:
 * `with_index`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
@@ -247,7 +247,7 @@ What is your favorite number of these?
 
 </details>
 
-### Multiple choice "checkbox" question
+### Multiple choice "checkbox" questions
 
 Question configuration options:
 * `with_indexes`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
