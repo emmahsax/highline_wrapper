@@ -52,6 +52,9 @@ Metrics/BlockLength:
     - spec/**/*
     - highline_wrapper.gemspec
 
+Metrics/MethodLength:
+  Max: 15
+
 Style/AccessModifierDeclarations:
   EnforcedStyle: inline
 
