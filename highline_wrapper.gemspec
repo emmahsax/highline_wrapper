@@ -6,9 +6,9 @@ Gem::Specification.new do |gem|
   gem.name                  = 'highline_wrapper'
   gem.version               = HighlineWrapper::VERSION
   gem.authors               = ['Emma Sax']
-  gem.summary               = 'A little wrapper for Highline'
+  gem.summary               = 'A little wrapper for HighLine'
   gem.description           = 'Making it easier to ask simple questions, such as multiple choice ' \
-                              'questions, yes/no questions, etc, using Highline'
+                              'questions, yes/no questions, etc, using HighLine'
   gem.homepage              = 'https://github.com/emmahsax/highline_wrapper'
   gem.license               = 'MIT'
   gem.required_ruby_version = '>= 1.9.3'
