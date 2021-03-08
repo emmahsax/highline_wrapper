@@ -13,6 +13,7 @@ class HighlineWrapper
   #
   # prompt: the prompt for the question (string)
   # options: various options to pass to the questions (hash)
+  #   include_newline: whether to include a newline after the user answers the question (boolean - defaults to false)
   #   secret: whether the terminal should hide the typed value (boolean - defaults to false)
   #   default: the default selection (string - defaults to '')
   #   required: whether the question is required or not (boolean - defaults to false)
@@ -22,6 +23,7 @@ class HighlineWrapper
   #  If required == true, then the default value will be ignored
   def ask(prompt, options = {})
     defaults = {
+      include_newline: false,
       secret: false,
       default: '',
       required: false
@@ -34,6 +36,7 @@ class HighlineWrapper
   #
   # prompt: the prompt for the question (string)
   # options: various options to pass to the questions (hash)
+  #   include_newline: whether to include a newline after the user answers the question (boolean - defaults to false)
   #   default: the default selection (boolean - defaults to true)
   #   required: whether the question is required or not (boolean - defaults to false)
   #
@@ -42,6 +45,7 @@ class HighlineWrapper
   #  If required == true, then the default value will be ignored
   def ask_yes_no(prompt, options = {})
     defaults = {
+      include_newline: false,
       default: true,
       required: false
     }
@@ -56,6 +60,7 @@ class HighlineWrapper
   # prompt: the prompt for the question (string)
   # choices: a list of string options (array) (e.g. [ 'a', 'b', 'c' ])
   # options: various options to pass to the questions (hash)
+  #   include_newline: whether to include a newline after the user answers the question (boolean - defaults to false)
   #   with_index: whether to return the index of the selection (boolean - defaults to false)
   #   default: the default selection if the user skips the question (string - defaults to nil)
   #   required: whether the question is required or not (boolean - defaults to false)
@@ -66,6 +71,7 @@ class HighlineWrapper
   #   If default == nil and required == false, and the user skips the question, the answer will be nil
   def ask_multiple_choice(prompt, choices, options = {})
     defaults = {
+      include_newline: false,
       with_index: false,
       default: nil,
       required: false
@@ -81,6 +87,7 @@ class HighlineWrapper
   # prompt: the prompt for the question (string)
   # choices: a list of string options (array) (e.g. [ 'a', 'b', 'c' ])
   # options: various options to pass to the questions (hash)
+  #   include_newline: whether to include a newline after the user answers the question (boolean - defaults to false)
   #   with_indexes: whether to return the indexes of the selections (boolean - defaults to false)
   #   defaults: the default selections if the user skips the question (array - defaults to [])
   #   required: whether the question is required or not (boolean - defaults to false)
@@ -91,6 +98,7 @@ class HighlineWrapper
   #   If defaults == [] and required == false, then the method will return an empty array
   def ask_checkbox(prompt, choices, options = {})
     defaults = {
+      include_newline: false,
       with_indexes: false,
       defaults: [],
       required: false

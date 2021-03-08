@@ -46,6 +46,7 @@ Then, you can call its questions to receive answers. There's several configurati
 ### Open-ended questions
 
 Question configuration options:
+* `include_newline`: defaults to `false`
 * `secret`: defaults to `false`
 * `default`: defaults to `''`
 * `required`: defaults to `false`
@@ -55,6 +56,7 @@ Notes:
 * If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
 * If `secret` is `true`, then the command-line will hide the user's answer behind `*`
+* The only time that a newline is automatically entered is if the question has `secret` set to `true` and the user skips the question, in which case the HighLine client will automatically add a newline
 
 <details><summary>Examples</summary>
 
@@ -62,35 +64,34 @@ Notes:
 > HighlineWrapper.new.ask('What is your favorite number?')
 What is your favorite number?
 four
-
 => "four"
 
 > HighlineWrapper.new.ask('What is your favorite number?', {required: true})
 What is your favorite number?
-
-This question is required.
-
+--- This question is required ---
 What is your favorite number?
-
-This question is required.
-
+--- This question is required ---
+What is your favorite number?
+--- This question is required ---
 What is your favorite number?
 2
-
 => "2"
 
 > HighlineWrapper.new.ask('What is your favorite color?')
 What is your favorite color?
-
 => ""
 
 > HighlineWrapper.new.ask('What is your favorite color?', {default: 'orange'})
 What is your favorite color?
-
 => "orange"
 
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
 Please type your private token?
+****************
+=> "MY-PRIVATE-TOKEN"
+
+HighlineWrapper.new.ask('Please type your private token:', {secret: true, include_newline: true})
+Please type your private token:
 ****************
 
 => "MY-PRIVATE-TOKEN"
@@ -98,19 +99,15 @@ Please type your private token?
 > HighlineWrapper.new.ask('What is your private token?', {secret: true, required: true})
 What is your private token?
 
-This question is required.
-
+--- This question is required ---
 What is your private token?
 
-This question is required.
-
+--- This question is required ---
 What is your private token?
 
-This question is required.
-
+--- This question is required ---
 What is your private token?
 ****************
-
 => "MY-PRIVATE-TOKEN"
 ```
 
@@ -119,6 +116,7 @@ What is your private token?
 ### Yes/No questions
 
 Question configuration options:
+* `include_newline`: defaults to `false`
 * `default`: defaults to `true` (aka 'yes')
 * `required`: defaults to `false`
 
@@ -130,42 +128,33 @@ Notes:
 <details><summary>Examples</summary>
 
 ```ruby
-> HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {include_newline: false})
 Do you like Ruby?
 no
-
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
 yes
-
 => true
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {default: false})
 Do you like Ruby?
-
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {required: true})
 Do you like Ruby?
-
-This question is required.
-
+--- This question is required ---
 Do you like Ruby?
 No
-
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
 uh-huh
-
-This question is required.
-
+--- This question is required ---
 Do you like Ruby?
 YES
-
 => true
 ```
 
@@ -174,6 +163,7 @@ YES
 ### Multiple choice questions
 
 Question configuration options:
+* `include_newline`: defaults to `false`
 * `with_index`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `default`: defaults to `nil`
 * `required`: defaults to `false`
@@ -196,7 +186,6 @@ What is your favorite number of these?
 2. two
 3. three
 2
-
 => {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true})
@@ -205,7 +194,6 @@ What is your favorite number of these?
 2. two
 3. three
 2
-
 => {:value=>"two", :index=>1}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one'})
@@ -213,7 +201,6 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
-
 => {:value=>"one", :index=>0}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
@@ -221,22 +208,17 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What is your favorite number of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What is your favorite number of these?
 1. one
 2. two
 3. three
 2
-
 => {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil})
@@ -244,7 +226,6 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
-
 => nil
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true})
@@ -252,7 +233,6 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
-
 => nil
 ```
 
@@ -261,6 +241,7 @@ What is your favorite number of these?
 ### Multiple choice "checkbox" questions
 
 Question configuration options:
+* `include_newline`: defaults to `false`
 * `with_indexes`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `defaults`: defaults to `[]`
 * `required`: defaults to `false`
@@ -283,7 +264,6 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
-
 => [{:value=>"one"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true})
@@ -292,7 +272,6 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
-
 => [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
@@ -300,7 +279,6 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
 => [{:value=>"two"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: true})
@@ -308,15 +286,12 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
 2
-
 => [{:value=>"two", :index=>1}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
@@ -324,15 +299,12 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
 1
-
 => [{:value=>"one"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: []})
@@ -340,7 +312,6 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
 => []
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: [], with_indexes: true})
@@ -348,7 +319,6 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
 => []
 ```
 

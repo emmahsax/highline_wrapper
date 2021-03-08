@@ -7,7 +7,7 @@ class HighlineWrapper
     class << self
       def ask(prompt, choices, options)
         indices = ask_highline(format_options(prompt, choices))
-        puts
+        puts if options[:include_newline]
 
         return format_multiple_selections(choices, indices, options[:with_indexes]) unless indices.empty?
         return recurse(prompt, choices, options) if options[:required]
