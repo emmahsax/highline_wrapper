@@ -7,7 +7,12 @@ class HighlineWrapper
     class << self
       def ask(prompt, options)
         answer = ask_highline(prompt, secret: options[:secret]).to_s
-        puts if options[:include_newline]
+
+        if !options[:secret] && (options[:include_newline] || answer.empty?)
+          puts
+        elsif options[:secret]
+          puts if options[:include_newline] && !answer.empty?
+        end
 
         return answer unless answer.empty?
         return recurse(prompt, nil, options) if options[:required]

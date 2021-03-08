@@ -56,6 +56,7 @@ Notes:
 * If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
 * If `secret` is `true`, then the command-line will hide the user's answer behind `*`
+* If the user skips the question, a single newline representing the user's missing answer will be added automatically (no matter what `include_newline` is set to)
 * The only time that a newline is automatically entered is if the question has `secret` set to `true` and the user skips the question, in which case the HighLine client will automatically add a newline
 
 <details><summary>Examples</summary>
@@ -68,21 +69,44 @@ four
 
 > HighlineWrapper.new.ask('What is your favorite number?', {required: true})
 What is your favorite number?
+
 --- This question is required ---
 What is your favorite number?
+
 --- This question is required ---
 What is your favorite number?
+
 --- This question is required ---
 What is your favorite number?
 2
 => "2"
 
+> HighlineWrapper.new.ask('What is your favorite number?', {required: true, include_newline: true})
+What is your favorite number?
+
+--- This question is required ---
+
+What is your favorite number?
+
+--- This question is required ---
+
+What is your favorite number?
+
+--- This question is required ---
+
+What is your favorite number?
+2
+
+=> "2"
+
 > HighlineWrapper.new.ask('What is your favorite color?')
 What is your favorite color?
+
 => ""
 
 > HighlineWrapper.new.ask('What is your favorite color?', {default: 'orange'})
 What is your favorite color?
+
 => "orange"
 
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
@@ -90,7 +114,7 @@ Please type your private token?
 ****************
 => "MY-PRIVATE-TOKEN"
 
-HighlineWrapper.new.ask('Please type your private token:', {secret: true, include_newline: true})
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true, include_newline: true})
 Please type your private token:
 ****************
 
@@ -109,6 +133,11 @@ What is your private token?
 What is your private token?
 ****************
 => "MY-PRIVATE-TOKEN"
+
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true})
+Please type your private token:
+****************
+=> "MY-PRIVATE-TOKEN"
 ```
 
 </details>
@@ -123,6 +152,7 @@ Question configuration options:
 Notes:
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `true`, but could be set to whatever and the code won't care... the question is required)
+* If the user skips the question, a single newline representing the user's missing answer will be added automatically (no matter what `include_newline` is set to)
 * If `default` is `true` and `required` is `false`, and the user skips the question, the answer will be `true`
 
 <details><summary>Examples</summary>
@@ -138,12 +168,22 @@ Do you like Ruby?
 yes
 => true
 
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {include_newline: true})
+Do you like Ruby?
+yes
+
+=> true
+
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {default: false})
 Do you like Ruby?
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {required: true})
 Do you like Ruby?
+
+--- This question is required ---
+Do you like Ruby?
+
 --- This question is required ---
 Do you like Ruby?
 No
@@ -176,6 +216,7 @@ Notes:
   * e.g. `{ value: 'c', index: 2 }`
 * If `with_index` is `false`, then a hash of one item will be returned
   * e.g. `{ value: 'c' }`
+* If the user skips the question, a single newline representing the user's missing answer will be added automatically (no matter what `include_newline` is set to)
 
 <details><summary>Examples</summary>
 
@@ -196,11 +237,35 @@ What is your favorite number of these?
 2
 => {:value=>"two", :index=>1}
 
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true, include_newline: true})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+--- This question is required ---
+
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
+--- This question is required ---
+
+What is your favorite number of these?
+1. one
+2. two
+3. three
+2
+
+=> {:value=>"two"}
+
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one'})
 What is your favorite number of these?
 1. one
 2. two
 3. three
+
 => {:value=>"one", :index=>0}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
@@ -208,11 +273,13 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
+
 --- This question is required ---
 What is your favorite number of these?
 1. one
 2. two
 3. three
+
 --- This question is required ---
 What is your favorite number of these?
 1. one
@@ -226,6 +293,7 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
+
 => nil
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true})
@@ -233,6 +301,15 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
+
+=> nil
+
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true, include_newline: true})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+
 => nil
 ```
 
@@ -254,6 +331,7 @@ Notes:
   * e.g. `[{ value: 'a', index: 0 }, { value: 'c', index: 2 }]`
 * If `with_indexes` is `false`, then an hashes will be returned where each hash only has a value
   * e.g. `[{ value: 'a' }, { value: 'c' }]`
+* If the user skips the question, a single newline representing the user's missing answer will be added automatically (no matter what `include_newline` is set to)
 
 <details><summary>Examples</summary>
 
@@ -274,11 +352,21 @@ What are your favorite numbers of these?
 1, 3
 => [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
 
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true, include_newline: true})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+2
+
+=> [{:value=>"two", :index=>1}]
+
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
+
 => [{:value=>"two"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: true})
@@ -286,6 +374,7 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
+
 --- This question is required ---
 What are your favorite numbers of these?
 1. one
@@ -299,6 +388,7 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
+
 --- This question is required ---
 What are your favorite numbers of these?
 1. one
@@ -312,13 +402,15 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
+
 => []
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: [], with_indexes: true})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: [], with_indexes: true, include_newline: true})
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
+
 => []
 ```
 
