@@ -23,7 +23,7 @@ class HighlineWrapper
       end
 
       def recurse(prompt, choices, options)
-        puts "--- This question is required ---"
+        puts '--- This question is required ---'
         puts if options[:include_newline]
         choices.nil? ? ask(prompt, options) : ask(prompt, choices, options)
       end

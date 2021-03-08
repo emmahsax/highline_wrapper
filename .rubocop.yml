@@ -52,6 +52,15 @@ Metrics/BlockLength:
     - spec/**/*
     - highline_wrapper.gemspec
 
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Max: 10
+
+Metrics/PerceivedComplexity:
+  Max: 10
+
 Metrics/MethodLength:
   Max: 15
 

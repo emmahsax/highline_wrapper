@@ -8,10 +8,9 @@ class HighlineWrapper
       def ask(prompt, options)
         answer = ask_highline(prompt, secret: options[:secret]).to_s
 
-        if !options[:secret] && (options[:include_newline] || answer.empty?)
+        if (!options[:secret] && (options[:include_newline] || answer.empty?)) ||
+           (options[:secret] && (options[:include_newline] && !answer.empty?))
           puts
-        elsif options[:secret]
-          puts if options[:include_newline] && !answer.empty?
         end
 
         return answer unless answer.empty?
