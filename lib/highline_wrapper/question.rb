@@ -29,7 +29,7 @@ class HighlineWrapper
 
       def return_empty_defaults(options)
         puts '--- Default selected: EMPTY ---' if options[:indicate_default_message]
-        options[:defaults]
+        options[:defaults] || options[:default]
       end
 
       private def highline

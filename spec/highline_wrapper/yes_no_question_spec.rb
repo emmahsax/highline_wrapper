@@ -21,6 +21,7 @@ describe HighlineWrapper::YesNoQuestion do
   context 'with the options as defaults' do
     let(:options) do
       {
+        indicate_default_message: true,
         default: true,
         required: false
       }
@@ -41,6 +42,12 @@ describe HighlineWrapper::YesNoQuestion do
       allow(highline).to receive(:ask).and_return('')
       resp = subject.ask(Faker::Lorem.sentence, options)
       expect(resp).to eq(true)
+    end
+
+    it 'should call to print the default message' do
+      allow(highline).to receive(:ask).and_return('')
+      expect(subject).to receive(:print_default_message)
+      subject.ask(Faker::Lorem.sentence, options)
     end
   end
 
@@ -68,6 +75,7 @@ describe HighlineWrapper::YesNoQuestion do
   context 'with required set to false' do
     let(:options) do
       {
+        indicate_default_message: false,
         default: false,
         required: false
       }
@@ -83,6 +91,12 @@ describe HighlineWrapper::YesNoQuestion do
       allow(highline).to receive(:ask).and_return('')
       resp = subject.ask(Faker::Lorem.sentence, options)
       expect(resp).to eq(false)
+    end
+
+    it 'should not call to print the default message' do
+      allow(highline).to receive(:ask).and_return('')
+      expect(subject).not_to receive(:print_default_message)
+      subject.ask(Faker::Lorem.sentence, options)
     end
   end
 end
