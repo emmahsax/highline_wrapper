@@ -59,11 +59,6 @@ class HighlineWrapper
   #   with_index: whether to return the index of the selection (boolean - defaults to false)
   #   default: the default selection if the user skips the question (string - defaults to nil)
   #   required: whether the question is required or not (boolean - defaults to false)
-  #
-  # Notes:
-  #   If required == true, the question will repeat until the user answers the question
-  #   If required == true, then the default value will be ignored
-  #   If default == nil and required == false, and the user skips the question, the answer will be nil
   def ask_multiple_choice(prompt, choices, options = {})
     defaults = {
       indicate_default_message: true,

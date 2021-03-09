@@ -53,7 +53,7 @@ Question configuration options:
 
 Notes:
 * If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
-  * If `secret` is `true`, then the wrapper _may_ automatically add a newline after a skipped answer... this is automatic from HighLine and unfortunately, out of the wrapper's control
+  * If `secret` is `true`, then the wrapper _may_ automatically add a newline after a skipped answer... this is automatic from HighLine and is, unfortunately, out of the wrapper's control
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
