@@ -13,15 +13,14 @@ class HighlineWrapper
   #
   # prompt: the prompt for the question (string)
   # options: various options to pass to the questions (hash)
+  #   indicate_default_message: whether to tell the terminal what the default value selected is if the question
+  #     is skipped (boolean - defaults to true)
   #   secret: whether the terminal should hide the typed value (boolean - defaults to false)
   #   default: the default selection (string - defaults to '')
   #   required: whether the question is required or not (boolean - defaults to false)
-  #
-  # Notes:
-  #  If required == true, the question will repeat until the user answers the question
-  #  If required == true, then the default value will be ignored
   def ask(prompt, options = {})
     defaults = {
+      indicate_default_message: true,
       secret: false,
       default: '',
       required: false
@@ -34,14 +33,13 @@ class HighlineWrapper
   #
   # prompt: the prompt for the question (string)
   # options: various options to pass to the questions (hash)
+  #   indicate_default_message: whether to tell the terminal what the default value selected is if the question
+  #     is skipped (boolean - defaults to true)
   #   default: the default selection (boolean - defaults to true)
   #   required: whether the question is required or not (boolean - defaults to false)
-  #
-  # Notes:
-  #  If required == true, the question will repeat until the user answers the question
-  #  If required == true, then the default value will be ignored
   def ask_yes_no(prompt, options = {})
     defaults = {
+      indicate_default_message: true,
       default: true,
       required: false
     }
@@ -56,16 +54,14 @@ class HighlineWrapper
   # prompt: the prompt for the question (string)
   # choices: a list of string options (array) (e.g. [ 'a', 'b', 'c' ])
   # options: various options to pass to the questions (hash)
+  #   indicate_default_message: whether to tell the terminal what the default value selected is if the question
+  #     is skipped (boolean - defaults to true)
   #   with_index: whether to return the index of the selection (boolean - defaults to false)
   #   default: the default selection if the user skips the question (string - defaults to nil)
   #   required: whether the question is required or not (boolean - defaults to false)
-  #
-  # Notes:
-  #   If required == true, the question will repeat until the user answers the question
-  #   If required == true, then the default value will be ignored
-  #   If default == nil and required == false, and the user skips the question, the answer will be nil
   def ask_multiple_choice(prompt, choices, options = {})
     defaults = {
+      indicate_default_message: true,
       with_index: false,
       default: nil,
       required: false
@@ -81,16 +77,14 @@ class HighlineWrapper
   # prompt: the prompt for the question (string)
   # choices: a list of string options (array) (e.g. [ 'a', 'b', 'c' ])
   # options: various options to pass to the questions (hash)
+  #   indicate_default_message: whether to tell the terminal what the default value selected is if the question
+  #     is skipped (boolean - defaults to true)
   #   with_indexes: whether to return the indexes of the selections (boolean - defaults to false)
   #   defaults: the default selections if the user skips the question (array - defaults to [])
   #   required: whether the question is required or not (boolean - defaults to false)
-  #
-  # Notes:
-  #   If required == true, the question will repeat until the user answers the question
-  #   If required == true, then the defaults value will be ignored
-  #   If defaults == [] and required == false, then the method will return an empty array
   def ask_checkbox(prompt, choices, options = {})
     defaults = {
+      indicate_default_message: true,
       with_indexes: false,
       defaults: [],
       required: false

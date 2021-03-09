@@ -46,11 +46,14 @@ Then, you can call its questions to receive answers. There's several configurati
 ### Open-ended questions
 
 Question configuration options:
+* `indicate_default_message`: defaults to `true`
 * `secret`: defaults to `false`
 * `default`: defaults to `''`
 * `required`: defaults to `false`
 
 Notes:
+* If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
+  * If `secret` is `true`, then the wrapper _may_ automatically add a newline after a skipped answer... this is automatic from HighLine and is, unfortunately, out of the wrapper's control
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
@@ -62,56 +65,68 @@ Notes:
 > HighlineWrapper.new.ask('What is your favorite number?')
 What is your favorite number?
 four
-
 => "four"
 
 > HighlineWrapper.new.ask('What is your favorite number?', {required: true})
 What is your favorite number?
-
-This question is required.
-
+--- This question is required ---
 What is your favorite number?
-
-This question is required.
-
+--- This question is required ---
+What is your favorite number?
+--- This question is required ---
 What is your favorite number?
 2
-
 => "2"
+
+> HighlineWrapper.new.ask('What is your favorite number?', {required: true, indicate_default_message: false})
+What is your favorite number?
+--- This question is required ---
+What is your favorite number?
+--- This question is required ---
+What is your favorite number?
+5
+=> "5"
+
+> HighlineWrapper.new.ask('What is your favorite number?', {indicate_default_message: false})
+What is your favorite number?
+=> ""
 
 > HighlineWrapper.new.ask('What is your favorite color?')
 What is your favorite color?
-
+--- Default selected: EMPTY ---
 => ""
 
 > HighlineWrapper.new.ask('What is your favorite color?', {default: 'orange'})
 What is your favorite color?
-
+--- Default selected: orange ---
 => "orange"
 
 > HighlineWrapper.new.ask('Please type your private token:', {secret: true})
 Please type your private token?
 ****************
-
 => "MY-PRIVATE-TOKEN"
 
-> HighlineWrapper.new.ask('What is your private token?', {secret: true, required: true})
-What is your private token?
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true, indicate_default_message: false})
+Please type your private token:
 
-This question is required.
+=> ""
 
-What is your private token?
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true, required: true})
+Please type your private token:
 
-This question is required.
+--- This question is required ---
+Please type your private token:
 
-What is your private token?
-
-This question is required.
-
-What is your private token?
+--- This question is required ---
+Please type your private token:
 ****************
-
 => "MY-PRIVATE-TOKEN"
+
+> HighlineWrapper.new.ask('Please type your private token:', {secret: true})
+Please type your private token:
+
+--- Default selected: HIDDEN ---
+=> ""
 ```
 
 </details>
@@ -119,10 +134,12 @@ What is your private token?
 ### Yes/No questions
 
 Question configuration options:
+* `indicate_default_message`: defaults to `true`
 * `default`: defaults to `true` (aka 'yes')
 * `required`: defaults to `false`
 
 Notes:
+* If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `true`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `true` and `required` is `false`, and the user skips the question, the answer will be `true`
@@ -132,40 +149,40 @@ Notes:
 ```ruby
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
-no
+--- Default selected: YES ---
+=> true
 
-=> false
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {indicate_default_message: false})
+Do you like Ruby?
+=> true
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
-yes
-
-=> true
+no
+=> false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {default: false})
 Do you like Ruby?
-
+--- Default selected: NO ---
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?', {required: true})
 Do you like Ruby?
-
-This question is required.
-
+--- This question is required ---
 Do you like Ruby?
-No
-
+--- This question is required ---
+Do you like Ruby?
+--- This question is required ---
+Do you like Ruby?
+no
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
 Do you like Ruby?
 uh-huh
-
-This question is required.
-
+--- This question is required ---
 Do you like Ruby?
-YES
-
+yep
 => true
 ```
 
@@ -174,11 +191,13 @@ YES
 ### Multiple choice questions
 
 Question configuration options:
+* `indicate_default_message`: defaults to `true`
 * `with_index`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `default`: defaults to `nil`
 * `required`: defaults to `false`
 
 Notes:
+* If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `nil`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `nil` and `required` is `false`, and the user skips the question, the answer will be `nil`
@@ -196,7 +215,6 @@ What is your favorite number of these?
 2. two
 3. three
 2
-
 => {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true})
@@ -205,15 +223,39 @@ What is your favorite number of these?
 2. two
 3. three
 2
-
 => {:value=>"two", :index=>1}
+
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true, indicate_default_message: false})
+What is your favorite number of these?
+1. one
+2. two
+3. three
+--- This question is required ---
+What is your favorite number of these?
+1. one
+2. two
+3. three
+--- This question is required ---
+What is your favorite number of these?
+1. one
+2. two
+3. three
+2
+=> {:value=>"two"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one'})
 What is your favorite number of these?
 1. one
 2. two
 3. three
+--- Default selected: 1. one ---
+=> {:value=>"one", :index=>0}
 
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {with_index: true, default: 'one', indicate_default_message: false})
+What is your favorite number of these?
+1. one
+2. two
+3. three
 => {:value=>"one", :index=>0}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: 'three', required: true})
@@ -221,38 +263,40 @@ What is your favorite number of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What is your favorite number of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What is your favorite number of these?
 1. one
 2. two
 3. three
-2
-
-=> {:value=>"two"}
+1
+=> {:value=>"one"}
 
 > HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil})
 What is your favorite number of these?
 1. one
 2. two
 3. three
-
+--- Default selected: EMPTY ---
 => nil
 
-> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true})
+>  HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true})
 What is your favorite number of these?
 1. one
 2. two
 3. three
+--- Default selected: EMPTY ---
+=> nil
 
+> HighlineWrapper.new.ask_multiple_choice('What is your favorite number of these?', ['one', 'two', 'three'], {default: nil, with_index: true, indicate_default_message: false})
+What is your favorite number of these?
+1. one
+2. two
+3. three
 => nil
 ```
 
@@ -261,11 +305,13 @@ What is your favorite number of these?
 ### Multiple choice "checkbox" questions
 
 Question configuration options:
+* `indicate_default_message`: defaults to `true`
 * `with_indexes`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `defaults`: defaults to `[]`
 * `required`: defaults to `false`
 
 Notes:
+* If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `defaults` value will be ignored (this value is defaulting to `[]`, but could be set to whatever and the code won't care... the question is required)
 * If `defaults` is `[]` and `required` is `false`, then the method will return an empty array
@@ -283,7 +329,6 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
-
 => [{:value=>"one"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true})
@@ -292,15 +337,29 @@ What are your favorite numbers of these?
 2. two
 3. three
 1, 3
-
 => [{:value=>"one", :index=>0}, {:value=>"three", :index=>2}]
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true, indicate_default_message: false})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+=> []
+
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {with_indexes: true})
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+--- Defaults selected: EMPTY ---
+=> []
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three']})
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
+--- Defaults selected: 2. two, 3. three ---
 => [{:value=>"two"}, {:value=>"three"}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: true})
@@ -308,15 +367,17 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
+What are your favorite numbers of these?
+1. one
+2. two
+3. three
+--- This question is required ---
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
 2
-
 => [{:value=>"two", :index=>1}]
 
 > HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {required: true, with_indexes: false})
@@ -324,32 +385,20 @@ What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
-This question is required.
-
+--- This question is required ---
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
 1
-
 => [{:value=>"one"}]
 
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: []})
+> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: ['two', 'three'], with_indexes: true, indicate_default_message: false})
 What are your favorite numbers of these?
 1. one
 2. two
 3. three
-
-=> []
-
-> HighlineWrapper.new.ask_checkbox("What are your favorite numbers of these?", ['one', 'two','three'], {defaults: [], with_indexes: true})
-What are your favorite numbers of these?
-1. one
-2. two
-3. three
-
-=> []
+=> [{:value=>"two", :index=>1}, {:value=>"three", :index=>2}]
 ```
 
 </details>

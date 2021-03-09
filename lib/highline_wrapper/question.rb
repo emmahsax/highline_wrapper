@@ -23,8 +23,13 @@ class HighlineWrapper
       end
 
       def recurse(prompt, choices, options)
-        puts "This question is required.\n\n"
+        puts '--- This question is required ---'
         choices.nil? ? ask(prompt, options) : ask(prompt, choices, options)
+      end
+
+      def return_empty_defaults(options)
+        puts '--- Default selected: EMPTY ---' if options[:indicate_default_message]
+        options[:defaults] || options[:default]
       end
 
       private def highline
