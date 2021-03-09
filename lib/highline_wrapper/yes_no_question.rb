@@ -7,19 +7,23 @@ class HighlineWrapper
     class << self
       def ask(prompt, options)
         answer = ask_highline(prompt).to_s.downcase
-        puts if options[:include_newline] || answer.empty?
 
         return parse(answer, prompt, options) unless answer.empty?
         return recurse(prompt, nil, options) if options[:required]
 
+        print_default_message(options) if options[:indicate_default_message]
         options[:default]
       end
 
-      def parse(answer, prompt, options)
+      private def parse(answer, prompt, options)
         return true if answer.include?('y')
         return false if answer.include?('n')
 
         recurse(prompt, nil, options)
+      end
+
+      private def print_default_message(options)
+        puts "--- Default selected: #{options[:default] ? 'YES' : 'NO'} ---"
       end
     end
   end
