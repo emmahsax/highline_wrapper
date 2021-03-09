@@ -21,6 +21,7 @@ describe HighlineWrapper::OpenEndedQuestion do
   context 'with the options as defaults' do
     let(:options) do
       {
+        indicate_default_message: true,
         secret: false,
         default: '',
         required: false
@@ -43,6 +44,12 @@ describe HighlineWrapper::OpenEndedQuestion do
       allow(highline).to receive(:ask).and_return('')
       resp = subject.ask(Faker::Lorem.sentence, options)
       expect(resp).to eq('')
+    end
+
+    it 'should call to print the default message' do
+      allow(highline).to receive(:ask).and_return('')
+      expect(subject).to receive(:print_default_message)
+      subject.ask(Faker::Lorem.sentence, options)
     end
   end
 
@@ -73,6 +80,7 @@ describe HighlineWrapper::OpenEndedQuestion do
     let(:default_string) { Faker::Lorem.sentence }
     let(:options) do
       {
+        indicate_default_message: false,
         secret: false,
         default: default_string,
         required: false
@@ -89,6 +97,12 @@ describe HighlineWrapper::OpenEndedQuestion do
     it 'should return the default value the user skips' do
       allow(highline).to receive(:ask).and_return('')
       expect(subject.ask(Faker::Lorem.sentence, options)).to eq(default_string)
+    end
+
+    it 'should not call to print the default message' do
+      allow(highline).to receive(:ask).and_return('')
+      expect(subject).not_to receive(:print_default_message)
+      subject.ask(Faker::Lorem.sentence, options)
     end
   end
 end

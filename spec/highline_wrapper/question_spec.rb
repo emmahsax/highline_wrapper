@@ -60,4 +60,55 @@ describe HighlineWrapper::Question do
       end
     end
   end
+
+  describe '#should print out a message indicating EMPTY was selected, and return the defaults' do
+    context 'when default message is true' do
+      let(:options) do
+        {
+          defaults: :default,
+          indicate_default_message: true
+        }
+      end
+
+      it 'should return the default in the options' do
+        expect(subject.send(:return_empty_defaults, options)).to eq(:default)
+      end
+
+      it 'should puts a message' do
+        expect(subject).to receive(:puts)
+        expect(subject.send(:return_empty_defaults, options)).to eq(:default)
+      end
+    end
+
+    context 'when default message is false' do
+      let(:options) do
+        {
+          defaults: :default,
+          indicate_default_message: false
+        }
+      end
+
+      it 'should return the default in the options' do
+        expect(subject.send(:return_empty_defaults, options)).to eq(:default)
+      end
+
+      it 'should not puts a message' do
+        expect(subject).not_to receive(:puts)
+        expect(subject.send(:return_empty_defaults, options)).to eq(:default)
+      end
+    end
+
+    context 'when a singular default is present, but not plural' do
+      let(:options) do
+        {
+          default: :default,
+          indicate_default_message: false
+        }
+      end
+
+      it 'should return the default in the options' do
+        expect(subject.send(:return_empty_defaults, options)).to eq(:default)
+      end
+    end
+  end
 end
