@@ -44,6 +44,12 @@ describe HighlineWrapper::CheckboxQuestion do
       resp = subject.ask(Faker::Lorem.sentence, choices, options)
       expect(resp).to eq([])
     end
+
+    it 'should call the return empty defaults if the user skips' do
+      allow(highline).to receive(:ask).and_return('')
+      expect(subject).to receive(:return_empty_defaults)
+      subject.ask(Faker::Lorem.sentence, choices, options)
+    end
   end
 
   context 'with required set to true' do
@@ -97,6 +103,7 @@ describe HighlineWrapper::CheckboxQuestion do
       context 'with defaults set' do
         let(:options) do
           {
+            indicate_default_message: true,
             with_indexes: false,
             defaults: ['two'],
             required: false
@@ -113,6 +120,31 @@ describe HighlineWrapper::CheckboxQuestion do
           allow(highline).to receive(:ask).and_return('')
           resp = subject.ask(Faker::Lorem.sentence, choices, options)
           expect(resp).to eq([{ value: 'two' }])
+        end
+
+        it 'should call to return the defaults if the user skips' do
+          allow(highline).to receive(:ask).and_return('')
+          expect(subject).to receive(:return_defaults).and_call_original
+          expect(subject).to receive(:puts)
+          subject.ask(Faker::Lorem.sentence, choices, options)
+        end
+
+        context 'when the indicate_default_message is false' do
+          let(:options) do
+            {
+              indicate_default_message: false,
+              with_indexes: false,
+              defaults: ['two'],
+              required: false
+            }
+          end
+
+          it 'should call to return the defaults if the user skips' do
+            allow(highline).to receive(:ask).and_return('')
+            expect(subject).to receive(:return_defaults)
+            expect(subject).not_to receive(:puts)
+            subject.ask(Faker::Lorem.sentence, choices, options)
+          end
         end
       end
 
@@ -181,6 +213,12 @@ describe HighlineWrapper::CheckboxQuestion do
           allow(highline).to receive(:ask).and_return('')
           resp = subject.ask(Faker::Lorem.sentence, choices, options)
           expect(resp).to eq([])
+        end
+
+        it 'should call the return empty defaults message' do
+          allow(highline).to receive(:ask).and_return('')
+          expect(subject).to receive(:return_empty_defaults)
+          subject.ask(Faker::Lorem.sentence, choices, options)
         end
       end
     end
