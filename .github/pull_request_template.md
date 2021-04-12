@@ -9,10 +9,8 @@
 
 > If applicable, a list of related pull requests and issues:
 >
-> * Issue #1
-> * Issue #2
-> * Pull Request #1
-> * Pull Request #2
+> * Issue URL link
+> * Pull Request URL link
 
 ## Additional Context
 

@@ -27,18 +27,18 @@ Please fill in the section that best describes your issue and delete all other s
 
   > Please complete the following information:
   >
-  > - OS: [e.g. iOS]
-  > - Browser: [e.g. chrome, safari]
-  > - Version: [e.g. 22]
+  > * OS: [e.g. iOS]
+  > * Browser: [e.g. chrome, safari]
+  > * Version: [e.g. 22]
 
   ## Smartphone
 
   > Please complete the following information:
   >
-  > - Device: [e.g. iPhone6]
-  > - OS: [e.g. iOS8.1]
-  > - Browser: [e.g. stock browser, safari]
-  > - Version: [e.g. 22]
+  > * Device: [e.g. iPhone6]
+  > * OS: [e.g. iOS8.1]
+  > * Browser: [e.g. stock browser, safari]
+  > * Version: [e.g. 22]
 
   ## Additional Context
 
