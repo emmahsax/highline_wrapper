@@ -16,12 +16,14 @@ class HighlineWrapper
       end
 
       private def parse(answer, prompt, options)
-        return true if answer == 'yes'
-        return false if answer == 'no'
-        return true if answer == 'y'
-        return false if answer == 'n'
-
-        recurse(prompt, nil, options)
+        case answer
+        when 'yes', 'y'
+          true
+        when 'no', 'n'
+          false
+        else
+          recurse(prompt, nil, options)
+        end
       end
 
       private def print_default_message(options)
