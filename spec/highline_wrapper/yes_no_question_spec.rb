@@ -28,7 +28,7 @@ describe HighlineWrapper::YesNoQuestion do
     end
 
     it 'should ask the highline client ask' do
-      expect(highline).to receive(:ask)
+      expect(highline).to receive(:ask).and_return('Y')
       subject.ask(Faker::Lorem.sentence, options)
     end
 
@@ -47,6 +47,12 @@ describe HighlineWrapper::YesNoQuestion do
     it 'should call to print the default message' do
       allow(highline).to receive(:ask).and_return('')
       expect(subject).to receive(:print_default_message)
+      subject.ask(Faker::Lorem.sentence, options)
+    end
+
+    it 'should recurse if the answer given is unparseable' do
+      allow(highline).to receive(:ask).and_return('yep', 'yessss', 'yes')
+      expect(subject).to receive(:recurse).exactly(2).times.and_call_original
       subject.ask(Faker::Lorem.sentence, options)
     end
   end

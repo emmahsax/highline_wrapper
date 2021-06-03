@@ -143,6 +143,7 @@ Notes:
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `true`, but could be set to whatever and the code won't care... the question is required)
 * If `default` is `true` and `required` is `false`, and the user skips the question, the answer will be `true`
+* The response to the question MUST be given either as `y`/`n`/`yes`/`no` or with any capitalization... anything else given as a response will be unparseable
 
 <details><summary>Examples</summary>
 
@@ -174,7 +175,7 @@ Do you like Ruby?
 Do you like Ruby?
 --- This question is required ---
 Do you like Ruby?
-no
+N
 => false
 
 > HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
@@ -182,7 +183,15 @@ Do you like Ruby?
 uh-huh
 --- This question is required ---
 Do you like Ruby?
+YES
+=> true
+
+> HighlineWrapper.new.ask_yes_no('Do you like Ruby?')
+Do you like Ruby?
 yep
+--- This question is required ---
+Do you like Ruby?
+yes
 => true
 ```
 
