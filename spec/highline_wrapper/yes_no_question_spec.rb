@@ -52,7 +52,7 @@ describe HighlineWrapper::YesNoQuestion do
 
     it 'should recurse if the answer given is unparseable' do
       allow(highline).to receive(:ask).and_return('yep', 'yessss', 'yes')
-      expect(subject).to receive(:recurse).at_least(2).times.and_call_original
+      expect(subject).to receive(:recurse).exactly(2).times.and_call_original
       subject.ask(Faker::Lorem.sentence, options)
     end
   end
