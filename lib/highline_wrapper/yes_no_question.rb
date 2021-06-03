@@ -16,10 +16,10 @@ class HighlineWrapper
       end
 
       private def parse(answer, prompt, options)
-        return true if answer.length == 3 && answer.include?('yes')
-        return false if answer.length == 2 && answer.include?('no')
-        return true if answer.length == 1 && answer.include?('y')
-        return false if answer.length == 1 && answer.include?('n')
+        return true if answer == 'yes'
+        return false if answer == 'no'
+        return true if answer == 'y'
+        return false if answer == 'n'
 
         recurse(prompt, nil, options)
       end
