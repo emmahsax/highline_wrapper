@@ -90,10 +90,10 @@ Please fill in the section that best describes your issue and delete all other s
 
 </details>
 
-<details><summary>General Question or Concern</summary>
+<details><summary>General Question, Comment, or Concern</summary>
 
-  ## What's your question or comment?
+  ## What's your question, comment, or concern?
 
-  > A clear and concise question or comment. Please add as much context as possible.
+  > A clear and concise question, comment, or concern. Please add as much context as possible.
 
 </details>
