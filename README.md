@@ -416,13 +416,25 @@ What are your favorite numbers of these?
 
 To run the tests, run `bundle exec rspec` from the command-line. GitHub Actions will also run the tests upon every commit to make sure they're up to date and that everything is working correctly. Locally, you can also run `bundle exec guard` to automatically run tests as you develop!
 
-## Contributing
+---
+
+### Contributing
 
 To submit a feature request, bug ticket, etc, please submit an official [GitHub Issue](https://github.com/emmahsax/highline_wrapper/issues/new).
 
+### Security Policy
+
 To report any security vulnerabilities, please view this project's [Security Policy](https://github.com/emmahsax/highline_wrapper/security/policy).
 
-## Releasing
+### Licensing
+
+For information on licensing, please see [LICENSE.md](https://github.com/emmahsax/highline_wrapper/blob/main/LICENSE.md).
+
+### Code of Conduct
+
+When interacting with this repository, please follow [Contributor Covenant's Code of Conduct](https://contributor-covenant.org).
+
+### Releasing
 
 To make a new release of this gem:
 
@@ -434,13 +446,3 @@ To make a new release of this gem:
 6. Run `rm *.gem` to clean up your local repository
 
 To set up your local machine to push to RubyGems via the API, see the [RubyGems documentation](https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg).
-
----
-
-### Licensing
-
-For information on licensing, please see [LICENSE.md](https://github.com/emmahsax/highline_wrapper/blob/main/LICENSE.md).
-
-### Code of Conduct
-
-When interacting with this repository, please follow [Contributor Covenant's Code of Conduct](https://contributor-covenant.org).
