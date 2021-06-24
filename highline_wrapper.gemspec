@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.description           = 'Making it easier to ask simple questions, such as multiple choice ' \
                               'questions, yes/no questions, etc, using HighLine'
   gem.homepage              = 'https://github.com/emmahsax/highline_wrapper'
-  gem.license               = 'MIT'
+  gem.license               = 'BSD-3-Clause'
   gem.required_ruby_version = '>= 1.9.3'
 
   gem.executables   = Dir['bin/*'].map { |f| File.basename(f) }
