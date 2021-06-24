@@ -4,4 +4,4 @@ To let me know there's a security vulnerability, please make a [new GitHub Issue
 
 I'll respond on the Issue or take appropriate action as soon as I'm able.
 
-Thank you for helping keep my repository as secure as possible.
+Thank you for helping me keep my repository as secure as possible.
