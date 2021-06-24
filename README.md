@@ -422,8 +422,6 @@ To submit a feature request, bug ticket, etc, please submit an official [GitHub 
 
 To report any security vulnerabilities, please view this project's [Security Policy](https://github.com/emmahsax/highline_wrapper/security/policy).
 
-When interacting with this repository, please follow [Contributor Covenant's Code of Conduct](https://contributor-covenant.org).
-
 ## Releasing
 
 To make a new release of this gem:
@@ -436,3 +434,13 @@ To make a new release of this gem:
 6. Run `rm *.gem` to clean up your local repository
 
 To set up your local machine to push to RubyGems via the API, see the [RubyGems documentation](https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg).
+
+---
+
+### Licensing
+
+For information on licensing, please see [LICENSE.md](https://github.com/emmahsax/highline_wrapper/blob/main/LICENSE.md).
+
+### Code of Conduct
+
+When interacting with this repository, please follow [Contributor Covenant's Code of Conduct](https://contributor-covenant.org).
