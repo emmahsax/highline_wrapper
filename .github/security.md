@@ -1,7 +1,3 @@
-# Security Policy
-
-## Reporting a Vulnerability
-
 If you happen to find any security vulnerabilities in this project, please let me know! I've turned on GitHub's vulnerability alerts and suggestions, but it's always possible that I'll miss something.
 
 To let me know there's a security vulnerability, please make a [new GitHub Issue](https://github.com/emmahsax/highline_wrapper/issues/new) and fill in the Security Report section to the best of your capabilities.
