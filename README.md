@@ -420,7 +420,9 @@ To run the tests, run `bundle exec rspec` from the command-line. GitHub Actions 
 
 ### Contributing
 
-To submit a feature request, bug ticket, etc, please submit an official [GitHub Issue](https://github.com/emmahsax/highline_wrapper/issues/new).
+To submit a feature request, bug ticket, etc, please submit an official [GitHub issue](https://github.com/emmahsax/highline_wrapper/issues/new). To copy or make changes, please [fork this repository](https://github.com/emmahsax/highline_wrapper/fork). When/if you'd like to contribute back to this upstream, please create a pull request on this repository.
+
+Please follow included Issue Template(s) and Pull Request Template(s) when creating issues or pull requests.
 
 ### Security Policy
 
