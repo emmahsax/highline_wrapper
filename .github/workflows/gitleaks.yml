@@ -1,0 +1,33 @@
+name: GitLeaks
+
+# Override desired times to run this workflow
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+# Override environment variables as needed
+env:
+  GITLEAKS_COMMIT_SINCE: "'2021-03-02T00:00:00-0600'" # Set with 24/hour time with time zone and ensure inner quotes
+
+###########################################################
+### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
+###########################################################
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: GitLeaks Scan
+        uses: addnab/docker-run-action@v3
+        with:
+          image: zricethezav/gitleaks
+          run: |
+            gitleaks --verbose \
+              --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
+              --access-token='${{ secrets.GITHUB_TOKEN }}' --commit-since='${{ env.GITLEAKS_COMMIT_SINCE }}'
