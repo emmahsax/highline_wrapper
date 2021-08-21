@@ -1,0 +1,34 @@
+name: Rspec
+
+# Override desired times to run this workflow
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+###########################################################
+### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
+###########################################################
+
+jobs:
+  default:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set Branch Variable
+        run: |
+          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # this is a branch, not a pull request
+            echo "BRANCH=$(echo ${{ github.REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
+          else
+            echo "BRANCH=$(echo ${{ github.HEAD_REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
+          fi
+      - name: Check Out Code
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ env.BRANCH }}
+      - name: Install Ruby and Bundle Install
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Rspec
+        run: bundle exec rspec
