@@ -20,13 +20,6 @@ jobs:
   default:
     runs-on: ubuntu-latest
     steps:
-      - name: Set Branch Variable
-        run: |
-          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # this is a branch, not a pull request
-            echo "BRANCH=$(echo ${{ github.REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
-          else
-            echo "BRANCH=$(echo ${{ github.HEAD_REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
-          fi
       - name: Check Out Code
         uses: actions/checkout@v2
         with:
@@ -34,7 +27,7 @@ jobs:
       - name: Set GitLeaks Config
         run: |
           echo "COMMITS=$(
-            git rev-list origin/${{ env.BRANCH }} ^origin/main | sed 's/^\|$//g' | paste -sd, -
+            git rev-list ${{ github.SHA }} ^origin/main | sed 's/^\|$//g' | paste -sd, -
           )" >> $GITHUB_ENV
           echo "Title = 'GitLeaks Allowlist'" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
@@ -47,7 +40,7 @@ jobs:
           options: -v ${{ github.WORKSPACE }}:/app
           run: |
             cd /app
-            if [[ ${{ env.BRANCH }} == 'main' ]]; then
+            if [[ ${{ github.REF }} == 'refs/heads/main' ]]; then
               gitleaks --verbose --additional-config='gitleaks.toml' \
                 --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
                 --access-token='${{ secrets.GITHUB_TOKEN }}'
