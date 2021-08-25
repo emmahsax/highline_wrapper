@@ -47,6 +47,11 @@ jobs:
           options: -v ${{ github.WORKSPACE }}:/app
           run: |
             cd /app
-            gitleaks --verbose --additional-config='gitleaks.toml' \
-              --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
-              --access-token='${{ secrets.GITHUB_TOKEN }}'
+            if [[ ${{ env.BRANCH }} == 'main' ]]; then
+              gitleaks --verbose --additional-config='gitleaks.toml' \
+                --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
+                --access-token='${{ secrets.GITHUB_TOKEN }}'
+            else
+              gitleaks --verbose --additional-config='gitleaks.toml' \
+                --path='./' --commits='${{ env.COMMITS }}'
+            fi
