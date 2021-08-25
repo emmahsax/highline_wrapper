@@ -9,7 +9,8 @@ on:
 
 # Override environment variables as needed
 env:
-  GITLEAKS_COMMIT_SINCE: "'2021-03-02T00:00:00-0600'" # Set with 24/hour time with time zone and ensure inner quotes
+  GITLEAKS_CONFIG_COMMITS: "[]" # A list of commits to ignore when running GitLeaks
+  GITLEAKS_CONFIG_REGEXES: "[]" # A list of regexes or secrets to ignore when running GitLeaks
 
 ###########################################################
 ### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
@@ -19,15 +20,38 @@ jobs:
   default:
     runs-on: ubuntu-latest
     steps:
+      - name: Set Branch Variable
+        run: |
+          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # this is a branch, not a pull request
+            echo "BRANCH=$(echo ${{ github.REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
+          else
+            echo "BRANCH=$(echo ${{ github.HEAD_REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
+          fi
       - name: Check Out Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: GitLeaks Scan
+      - name: Set GitLeaks Config
+        run: |
+          echo "COMMITS=$(
+            git rev-list origin/${{ env.BRANCH }} ^origin/main | sed 's/^\|$//g' | paste -sd, -
+          )" >> $GITHUB_ENV
+          echo "Title = 'GitLeaks Allowlist'" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "  commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "  regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
+      - name: GitLeaks
         uses: addnab/docker-run-action@v3
         with:
           image: zricethezav/gitleaks
+          options: -v ${{ github.WORKSPACE }}:/app
           run: |
-            gitleaks --verbose \
-              --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
-              --access-token='${{ secrets.GITHUB_TOKEN }}' --commit-since='${{ env.GITLEAKS_COMMIT_SINCE }}'
+            cd /app
+            if [[ ${{ env.BRANCH }} == 'main' ]]; then
+              gitleaks --verbose --additional-config='gitleaks.toml' \
+                --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
+                --access-token='${{ secrets.GITHUB_TOKEN }}'
+            else
+              gitleaks --verbose --additional-config='gitleaks.toml' \
+                --path='./' --commits='${{ env.COMMITS }}'
+            fi
