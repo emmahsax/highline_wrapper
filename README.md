@@ -1,4 +1,4 @@
-# Highline Wrapper [![Main](https://github.com/emmahsax/highline_wrapper/actions/workflows/main.yml/badge.svg)](https://github.com/emmahsax/highline_wrapper/actions/workflows/main.yml)
+# Highline Wrapper
 
 A little wrapper to help ask some easy questions via the command-line with Highline. The types of questions this wrapper supports is:
 
