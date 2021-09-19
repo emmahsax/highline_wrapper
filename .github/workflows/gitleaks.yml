@@ -26,25 +26,23 @@ jobs:
           fetch-depth: 0
       - name: Set GitLeaks Config
         run: |
+          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
+            CURRENT_COMMIT="${{ github.SHA }}"
+          else
+            CURRENT_COMMIT="${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}"
+          fi
           echo "COMMITS=$(
-            git rev-list ${{ github.SHA }} ^origin/main | sed 's/^\|$//g' | paste -sd, -
+            git rev-list $CURRENT_COMMIT ^origin/main | sed 's/^\|$//g' | paste -sd, -
           )" >> $GITHUB_ENV
           echo "Title = 'GitLeaks Allowlist'" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "  commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "  regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
       - name: GitLeaks
-        uses: addnab/docker-run-action@v3
-        with:
-          image: zricethezav/gitleaks
-          options: -v ${{ github.WORKSPACE }}:/app
-          run: |
-            cd /app
-            if [[ ${{ github.REF }} == 'refs/heads/main' ]]; then
-              gitleaks --verbose --additional-config='gitleaks.toml' \
-                --repo-url='${{ github.SERVER_URL }}/${{ github.REPOSITORY }}' \
-                --access-token='${{ secrets.GITHUB_TOKEN }}'
-            else
-              gitleaks --verbose --additional-config='gitleaks.toml' \
-                --path='./' --commits='${{ env.COMMITS }}'
-            fi
+        run: |
+          COMMAND="gitleaks --verbose --additional-config='/app/gitleaks.toml' --path='/app'"
+          if [ ${{ github.REF }} != 'refs/heads/main' ]; then
+            COMMAND="${COMMAND} --commits='${{ env.COMMITS }}'"
+          fi
+          docker pull zricethezav/gitleaks
+          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks -c "$COMMAND"

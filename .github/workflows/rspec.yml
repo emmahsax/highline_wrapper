@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Set Branch Variable
         run: |
-          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # this is a branch, not a pull request
+          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
             echo "BRANCH=$(echo ${{ github.REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
           else
             echo "BRANCH=$(echo ${{ github.HEAD_REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
