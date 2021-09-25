@@ -17,7 +17,7 @@ class HighlineWrapper
 
       private def ask_highline(prompt)
         indices = []
-        super(prompt).to_s.split(',').each { |i| indices << i.strip.to_i - 1 }
+        super(prompt).to_s.split(',').each { |i| indices << (i.strip.to_i - 1) }
         indices
       end
 
