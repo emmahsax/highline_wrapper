@@ -9,40 +9,44 @@ on:
 
 # Override environment variables as needed
 env:
+  GITLEAKS_VERSION: v8.0.4
+  GITLEAKS_REF: f15b4e408b12fda7e2833f8a32c0d8a045bd48a0
   GITLEAKS_CONFIG_COMMITS: "[]" # A list of commits to ignore when running GitLeaks
   GITLEAKS_CONFIG_REGEXES: "[]" # A list of regexes or secrets to ignore when running GitLeaks
+  GITLEAKS_CONFIG_PATHS: "[]" # A list of file paths to ignore when running GitLeaks
 
 ###########################################################
 ### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
 ###########################################################
 
 jobs:
-  default:
+  gitleaks:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Set GitLeaks Config
+      - name: Set GitLeaks Config File
         run: |
-          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
-            CURRENT_COMMIT="${{ github.SHA }}"
-          else
-            CURRENT_COMMIT="${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}"
-          fi
-          echo "COMMITS=$(
-            git rev-list $CURRENT_COMMIT ^origin/main | sed 's/^\|$//g' | paste -sd, -
-          )" >> $GITHUB_ENV
-          echo "Title = 'GitLeaks Allowlist'" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          curl -H "Accept: application/vnd.github.v3.raw" \
+            -L "https://api.github.com/repos/zricethezav/gitleaks/contents/config/gitleaks.toml?ref=${{ env.GITLEAKS_REF }}" \
+            >> ${{ github.WORKSPACE }}/original.toml
+          sed "/\[allowlist\]/,/^$/d" ${{ github.WORKSPACE }}/original.toml >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "  commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "  regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "paths = ${{ env.GITLEAKS_CONFIG_PATHS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
       - name: GitLeaks
         run: |
-          COMMAND="gitleaks --verbose --additional-config='/app/gitleaks.toml' --path='/app'"
-          if [ ${{ github.REF }} != 'refs/heads/main' ]; then
-            COMMAND="${COMMAND} --commits='${{ env.COMMITS }}'"
+          DEFAULT_BRANCH_COMMIT=$(git log origin/main | head -1 | sed 's/commit //')
+          COMMAND="gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
+          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
+            if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch IS the default branch
+              COMMAND="${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'"
+            fi
+          else
+            COMMAND="${COMMAND} --log-opts='^origin/main ${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}'"
           fi
-          docker pull zricethezav/gitleaks
-          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks -c "$COMMAND"
+          echo "Running: $COMMAND"
+          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks:${{ env.GITLEAKS_VERSION }} -c "$COMMAND"
