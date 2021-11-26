@@ -14,6 +14,7 @@ env:
   GITLEAKS_CONFIG_COMMITS: "[]" # A list of commits to ignore when running GitLeaks
   GITLEAKS_CONFIG_REGEXES: "[]" # A list of regexes or secrets to ignore when running GitLeaks
   GITLEAKS_CONFIG_PATHS: "[]" # A list of file paths to ignore when running GitLeaks
+  RUN_DEFAULT_ON_ALL_COMMITS: 'true' # Whether to run GitLeaks from default branch on all git history, or since a certain commit specified below
 
 ###########################################################
 ### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
@@ -37,16 +38,24 @@ jobs:
           echo "commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "paths = ${{ env.GITLEAKS_CONFIG_PATHS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
-      - name: GitLeaks
+      - name: Determine GitLeaks Command
         run: |
           DEFAULT_BRANCH_COMMIT=$(git log origin/main | head -1 | sed 's/commit //')
           COMMAND="gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
           if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
-            if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch IS the default branch
-              COMMAND="${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'"
+            if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch is not the default branch
+              echo "COMMAND=\"${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'\"" >> $GITHUB_ENV
+            else
+              if [[ ${{ env.RUN_DEFAULT_ON_ALL_COMMITS }} == 'false' ]]; then
+                echo "COMMAND=\"${COMMAND} --log-opts='${{ env.RUN_DEFAULT_ON_SINCE_COMMIT }}..${{ github.SHA }}'\"" >> $GITHUB_ENV
+              else
+                echo "COMMAND=\"${COMMAND}\"" >> $GITHUB_ENV
+              fi
             fi
           else
-            COMMAND="${COMMAND} --log-opts='^origin/main ${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}'"
+            echo "COMMAND=\"${COMMAND} --log-opts='^origin/main ${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}'\"" >> $GITHUB_ENV
           fi
-          echo "Running: $COMMAND"
-          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks:${{ env.GITLEAKS_VERSION }} -c "$COMMAND"
+      - name: GitLeaks
+        run: |
+          echo "Running: ${{ env.COMMAND }}"
+          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks:${{ env.GITLEAKS_VERSION }} -c ${{ env.COMMAND }}
