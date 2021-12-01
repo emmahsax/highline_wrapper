@@ -46,10 +46,10 @@ jobs:
             if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch is not the default branch
               echo "COMMAND=\"${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'\"" >> $GITHUB_ENV
             else
-              if [[ ${{ env.RUN_DEFAULT_ON_ALL_COMMITS }} == 'false' ]]; then
-                echo "COMMAND=\"${COMMAND} --log-opts='${{ env.RUN_DEFAULT_ON_SINCE_COMMIT }}..${{ github.SHA }}'\"" >> $GITHUB_ENV
-              else
+              if [[ ${{ env.RUN_DEFAULT_ON_ALL_COMMITS }} == 'true' ]]; then # Running on all commits in git history
                 echo "COMMAND=\"${COMMAND}\"" >> $GITHUB_ENV
+              else
+                echo "COMMAND=\"${COMMAND} --log-opts='${{ env.RUN_DEFAULT_ON_SINCE_COMMIT }}..${{ github.SHA }}'\"" >> $GITHUB_ENV
               fi
             fi
           else
