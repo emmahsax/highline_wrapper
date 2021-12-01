@@ -12,6 +12,7 @@ Gem::Specification.new do |gem|
   gem.homepage              = 'https://github.com/emmahsax/highline_wrapper'
   gem.license               = 'BSD-3-Clause'
   gem.required_ruby_version = '>= 1.9.3'
+  gem.metadata              = { 'rubygems_mfa_required' => 'true' }
 
   gem.executables   = Dir['bin/*'].map { |f| File.basename(f) }
   gem.files         = Dir['lib/highline_wrapper/*.rb'] + Dir['lib/*.rb'] + Dir['bin/*']
