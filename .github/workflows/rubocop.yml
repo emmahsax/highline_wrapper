@@ -10,7 +10,7 @@ on:
 ###########################################################
 
 jobs:
-  default:
+  rubocop:
     runs-on: ubuntu-latest
     steps:
       - name: Set Branch Variable
