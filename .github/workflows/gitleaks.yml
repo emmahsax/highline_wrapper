@@ -1,20 +1,18 @@
 name: GitLeaks
 
-# Override desired times to run this workflow
 on:
   push:
     branches: [ main ]
   pull_request:
   workflow_dispatch:
 
-# Override environment variables as needed
 env:
-  GITLEAKS_VERSION: v8.0.4
-  GITLEAKS_REF: f15b4e408b12fda7e2833f8a32c0d8a045bd48a0
-  GITLEAKS_CONFIG_COMMITS: "[]" # A list of commits to ignore when running GitLeaks
-  GITLEAKS_CONFIG_REGEXES: "[]" # A list of regexes or secrets to ignore when running GitLeaks
-  GITLEAKS_CONFIG_PATHS: "[]" # A list of file paths to ignore when running GitLeaks
-  RUN_DEFAULT_ON_ALL_COMMITS: 'true' # Whether to run GitLeaks from default branch on all git history, or since a certain commit specified below
+  GITLEAKS_VERSION: v8.2.0
+  GITLEAKS_REF: ce42947cae32cda8d5d8813c1a8ce82eb06f018e
+  GITLEAKS_CONFIG_COMMITS: "[]"
+  GITLEAKS_CONFIG_REGEXES: "[]"
+  GITLEAKS_CONFIG_PATHS: "[]"
+  RUN_DEFAULT_ON_ALL_COMMITS: 'true'
 
 ###########################################################
 ### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
