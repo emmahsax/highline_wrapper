@@ -1,6 +1,5 @@
 name: Rubocop
 
-# Override desired times to run this workflow
 on:
   pull_request:
   workflow_dispatch:

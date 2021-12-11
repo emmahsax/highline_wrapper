@@ -1,6 +1,5 @@
 name: Rspec
 
-# Override desired times to run this workflow
 on:
   push:
     branches: [ main ]
