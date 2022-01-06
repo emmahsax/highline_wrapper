@@ -7,8 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  GITLEAKS_VERSION: v8.2.0
-  GITLEAKS_REF: ce42947cae32cda8d5d8813c1a8ce82eb06f018e
+  GITLEAKS_VERSION: v8.2.5
   GITLEAKS_CONFIG_COMMITS: "[]"
   GITLEAKS_CONFIG_REGEXES: "[]"
   GITLEAKS_CONFIG_PATHS: "[]"
@@ -29,7 +28,7 @@ jobs:
       - name: Set GitLeaks Config File
         run: |
           curl -H "Accept: application/vnd.github.v3.raw" \
-            -L "https://api.github.com/repos/zricethezav/gitleaks/contents/config/gitleaks.toml?ref=${{ env.GITLEAKS_REF }}" \
+            -L "https://api.github.com/repos/zricethezav/gitleaks/contents/config/gitleaks.toml?ref=${{ env.GITLEAKS_VERSION }}" \
             >> ${{ github.WORKSPACE }}/original.toml
           sed "/\[allowlist\]/,/^$/d" ${{ github.WORKSPACE }}/original.toml >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
