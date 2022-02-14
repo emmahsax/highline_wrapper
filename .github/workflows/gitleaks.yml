@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  GITLEAKS_VERSION: v8.2.5
+  GITLEAKS_VERSION: v8.2.7
   GITLEAKS_CONFIG_COMMITS: "[]"
   GITLEAKS_CONFIG_REGEXES: "[]"
   GITLEAKS_CONFIG_PATHS: "[]"
