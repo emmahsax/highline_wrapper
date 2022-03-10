@@ -22,7 +22,7 @@ jobs:
             echo "BRANCH=$(echo ${{ github.HEAD_REF }} | sed -E 's|refs/[a-zA-Z]+/||')" >> $GITHUB_ENV
           fi
       - name: Check Out Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ env.BRANCH }}
       - name: Install Ruby and Bundle Install
