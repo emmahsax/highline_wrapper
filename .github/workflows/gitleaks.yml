@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  GITLEAKS_VERSION: v8.3.0
+  GITLEAKS_VERSION: v8.8.4
   GITLEAKS_CONFIG_COMMITS: "[]"
   GITLEAKS_CONFIG_REGEXES: "[]"
   GITLEAKS_CONFIG_PATHS: "[]"
@@ -38,21 +38,21 @@ jobs:
       - name: Determine GitLeaks Command
         run: |
           DEFAULT_BRANCH_COMMIT=$(git log origin/main | head -1 | sed 's/commit //')
-          COMMAND="gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
+          COMMAND="git config --global --add safe.directory /app && gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
           if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
             if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch is not the default branch
-              echo "COMMAND=\"${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'\"" >> $GITHUB_ENV
+              echo "COMMAND=${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'" >> $GITHUB_ENV
             else
               if [[ ${{ env.RUN_DEFAULT_ON_ALL_COMMITS }} == 'true' ]]; then # Running on all commits in git history
-                echo "COMMAND=\"${COMMAND}\"" >> $GITHUB_ENV
+                echo "COMMAND=${COMMAND}" >> $GITHUB_ENV
               else
-                echo "COMMAND=\"${COMMAND} --log-opts='${{ env.RUN_DEFAULT_ON_SINCE_COMMIT }}..${{ github.SHA }}'\"" >> $GITHUB_ENV
+                echo "COMMAND=${COMMAND} --log-opts='${{ env.RUN_DEFAULT_ON_SINCE_COMMIT }}..${{ github.SHA }}'" >> $GITHUB_ENV
               fi
             fi
           else
-            echo "COMMAND=\"${COMMAND} --log-opts='^origin/main ${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}'\"" >> $GITHUB_ENV
+            echo "COMMAND=${COMMAND} --log-opts='^origin/main ${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}'" >> $GITHUB_ENV
           fi
       - name: GitLeaks
         run: |
           echo "Running: ${{ env.COMMAND }}"
-          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks:${{ env.GITLEAKS_VERSION }} -c ${{ env.COMMAND }}
+          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks:${{ env.GITLEAKS_VERSION }} -c "${{ env.COMMAND }}"
