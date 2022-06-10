@@ -46,17 +46,17 @@ Then, you can call its questions to receive answers. There's several configurati
 ### Open-ended questions
 
 Question configuration options:
-* `indicate_default_message`: defaults to `true`
-* `secret`: defaults to `false`
 * `default`: defaults to `''`
+* `indicate_default_message`: defaults to `true`
 * `required`: defaults to `false`
+* `secret`: defaults to `false`
 
 Notes:
+* If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
 * If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
   * If `secret` is `true`, then the wrapper _may_ automatically add a newline after a skipped answer... this is automatic from HighLine and is, unfortunately, out of the wrapper's control
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `''`, but could be set to whatever and the code won't care... the question is required)
-* If `default` is `''` and `required` is `false`, and the user skips the question, the answer will be `''`
 * If `secret` is `true`, then the command-line will hide the user's answer behind `*`
 
 <details><summary>Examples</summary>
@@ -134,15 +134,15 @@ Please type your private token:
 ### Yes/No questions
 
 Question configuration options:
-* `indicate_default_message`: defaults to `true`
 * `default`: defaults to `true` (aka 'yes')
+* `indicate_default_message`: defaults to `true`
 * `required`: defaults to `false`
 
 Notes:
+* If `default` is `true` and `required` is `false`, and the user skips the question, the answer will be `true`
 * If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `true`, but could be set to whatever and the code won't care... the question is required)
-* If `default` is `true` and `required` is `false`, and the user skips the question, the answer will be `true`
 * The response to the question MUST be given either as `y`/`n`/`yes`/`no` or with any capitalization... anything else given as a response will be unparseable
 
 <details><summary>Examples</summary>
@@ -200,16 +200,16 @@ yes
 ### Multiple choice questions
 
 Question configuration options:
-* `indicate_default_message`: defaults to `true`
-* `with_index`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `default`: defaults to `nil`
+* `indicate_default_message`: defaults to `true`
 * `required`: defaults to `false`
+* `with_index`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 
 Notes:
+* If `default` is `nil` and `required` is `false`, and the user skips the question, the answer will be `nil`
 * If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `default` value will be ignored (defaults to `nil`, but could be set to whatever and the code won't care... the question is required)
-* If `default` is `nil` and `required` is `false`, and the user skips the question, the answer will be `nil`
 * If `with_index` is `true`, a hash will be returned with the choice AND the index of the selection in the original `choices` array
   * e.g. `{ value: 'c', index: 2 }`
 * If `with_index` is `false`, then a hash of one item will be returned
@@ -314,16 +314,16 @@ What is your favorite number of these?
 ### Multiple choice "checkbox" questions
 
 Question configuration options:
-* `indicate_default_message`: defaults to `true`
-* `with_indexes`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 * `defaults`: defaults to `[]`
+* `indicate_default_message`: defaults to `true`
 * `required`: defaults to `false`
+* `with_indexes`: defaults to `false` (particularly handy when there may be duplicate-named but different items in the list—think Sally with ID 45 and Sally with ID 72)
 
 Notes:
+* If `defaults` is `[]` and `required` is `false`, then the method will return an empty array
 * If `indicate_default_message` is `true`, then the wrapper will tell us what the default value returned is _if_ the user skips the question
 * If `required` is `true`, the question will repeat until the user answers the question
 * If `required` is `true`, then the `defaults` value will be ignored (this value is defaulting to `[]`, but could be set to whatever and the code won't care... the question is required)
-* If `defaults` is `[]` and `required` is `false`, then the method will return an empty array
 * If `with_indexes` is `true`, an array of hashes will be returned with the choice AND the index (of the selection in the original `choices` array) in each hash
   * e.g. `[{ value: 'a', index: 0 }, { value: 'c', index: 2 }]`
 * If `with_indexes` is `false`, then an hashes will be returned where each hash only has a value

@@ -1,9 +1,9 @@
 AllCops:
+  Exclude:
+    - vendor/**/*
   NewCops: enable
   SuggestExtensions: false
   TargetRubyVersion: 2.6
-  Exclude:
-    - vendor/**/*
 
 Gemspec/RequiredRubyVersion:
   Enabled: false
@@ -49,8 +49,8 @@ Lint/UnmodifiedReduceAccumulator:
 
 Metrics/BlockLength:
   Exclude:
-    - spec/**/*
     - highline_wrapper.gemspec
+    - spec/**/*
 
 Metrics/MethodLength:
   Max: 15
