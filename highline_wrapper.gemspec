@@ -19,7 +19,6 @@ Gem::Specification.new do |gem|
   gem.require_paths         = ['lib']
   gem.required_ruby_version = '>= 1.9.3'
   gem.summary               = 'A little HighLine wrapper'
-  gem.test_files            = Dir['spec/spec_helper.rb'] + Dir['spec/highline_wrapper/*.rb']
   gem.version               = HighlineWrapper::VERSION
 
   gem.add_dependency 'highline', '~> 2.0'
