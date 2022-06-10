@@ -1,16 +1,16 @@
 name: GitLeaks
 
 on:
+  pull_request:
   push:
     branches: [ main ]
-  pull_request:
   workflow_dispatch:
 
 env:
-  GITLEAKS_VERSION: v8.8.4
   GITLEAKS_CONFIG_COMMITS: "[]"
-  GITLEAKS_CONFIG_REGEXES: "[]"
   GITLEAKS_CONFIG_PATHS: "[]"
+  GITLEAKS_CONFIG_REGEXES: "[]"
+  GITLEAKS_VERSION: v8.8.7
   RUN_DEFAULT_ON_ALL_COMMITS: 'true'
 
 ###########################################################
@@ -33,12 +33,12 @@ jobs:
           sed "/\[allowlist\]/,/^$/d" ${{ github.WORKSPACE }}/original.toml >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
           echo "paths = ${{ env.GITLEAKS_CONFIG_PATHS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
+          echo "regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
       - name: Determine GitLeaks Command
         run: |
           DEFAULT_BRANCH_COMMIT=$(git log origin/main | head -1 | sed 's/commit //')
-          COMMAND="git config --global --add safe.directory /app && gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
+          COMMAND="gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
           if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
             if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch is not the default branch
               echo "COMMAND=${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'" >> $GITHUB_ENV
