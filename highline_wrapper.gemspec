@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'highline', '~> 2.0'
 
   gem.add_development_dependency 'bundler', '~> 2.2'
-  gem.add_development_dependency 'faker', '~> 2.15'
+  gem.add_development_dependency 'faker', '~> 3.0'
   gem.add_development_dependency 'guard-rspec', '~> 4.3'
   gem.add_development_dependency 'pry', '~> 0.13'
   gem.add_development_dependency 'rspec', '~> 3.9'
