@@ -10,7 +10,7 @@ env:
   GITLEAKS_CONFIG_COMMITS: "[]"
   GITLEAKS_CONFIG_PATHS: "[]"
   GITLEAKS_CONFIG_REGEXES: "[]"
-  GITLEAKS_VERSION: v8.15.0
+  GITLEAKS_VERSION: v8.15.2
   RUN_DEFAULT_ON_ALL_COMMITS: 'true'
 
 ###########################################################
