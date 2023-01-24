@@ -6,53 +6,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-env:
-  GITLEAKS_CONFIG_COMMITS: "[]"
-  GITLEAKS_CONFIG_PATHS: "[]"
-  GITLEAKS_CONFIG_REGEXES: "[]"
-  GITLEAKS_VERSION: v8.15.2
-  RUN_DEFAULT_ON_ALL_COMMITS: 'true'
-
-###########################################################
-### DO NOT EDIT BELOW – TEXT IS AUTOMATICALLY GENERATED ###
-###########################################################
-
 jobs:
   gitleaks:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out Code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Set GitLeaks Config File
-        run: |
-          curl -H "Accept: application/vnd.github.v3.raw" \
-            -L "https://api.github.com/repos/zricethezav/gitleaks/contents/config/gitleaks.toml?ref=${{ env.GITLEAKS_VERSION }}" \
-            >> ${{ github.WORKSPACE }}/original.toml
-          sed "/\[allowlist\]/,/^$/d" ${{ github.WORKSPACE }}/original.toml >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "[allowlist]" >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "commits = ${{ env.GITLEAKS_CONFIG_COMMITS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "paths = ${{ env.GITLEAKS_CONFIG_PATHS }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
-          echo "regexes = ${{ env.GITLEAKS_CONFIG_REGEXES }}" >> ${{ github.WORKSPACE }}/gitleaks.toml
-      - name: Determine GitLeaks Command
-        run: |
-          DEFAULT_BRANCH_COMMIT=$(git log origin/main | head -1 | sed 's/commit //')
-          COMMAND="gitleaks detect --verbose --config='/app/gitleaks.toml' --source='/app'"
-          if [[ ${{ github.REF }} == 'refs/heads'* ]]; then # This is a branch, not a pull request
-            if [[ ${{ github.SHA }} != $DEFAULT_BRANCH_COMMIT ]]; then # This branch is not the default branch
-              echo "COMMAND=${COMMAND} --log-opts='^origin/main ${{ github.SHA }}'" >> $GITHUB_ENV
-            else
-              if [[ ${{ env.RUN_DEFAULT_ON_ALL_COMMITS }} == 'true' ]]; then # Running on all commits in git history
-                echo "COMMAND=${COMMAND}" >> $GITHUB_ENV
-              else
-                echo "COMMAND=${COMMAND} --log-opts='${{ env.RUN_DEFAULT_ON_SINCE_COMMIT }}..${{ github.SHA }}'" >> $GITHUB_ENV
-              fi
-            fi
-          else
-            echo "COMMAND=${COMMAND} --log-opts='^origin/main ${{ github.EVENT.PULL_REQUEST.HEAD.SHA }}'" >> $GITHUB_ENV
-          fi
-      - name: GitLeaks
-        run: |
-          echo "Running: ${{ env.COMMAND }}"
-          docker run --rm -v $(pwd):/app -i --entrypoint /bin/bash zricethezav/gitleaks:${{ env.GITLEAKS_VERSION }} -c "${{ env.COMMAND }}"
+    uses: emmahsax/reusable-github-actions-workflows/.github/workflows/reusable-gitleaks.yml@main
