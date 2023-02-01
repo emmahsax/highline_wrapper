@@ -6,4 +6,4 @@ on:
 
 jobs:
   rubocop:
-    uses: emmahsax/reusable-github-actions-workflows/.github/workflows/reusable-rubocop.yml@main
+    uses: emmahsax/reusable-github-actions-workflows/.github/workflows/rubocop.yml@test
