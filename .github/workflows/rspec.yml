@@ -8,4 +8,4 @@ on:
 
 jobs:
   rspec:
-    uses: emmahsax/reusable-github-actions-workflows/.github/workflows/rspec.yml@test
+    uses: emmahsax/github-actions/.github/workflows/rspec.yml@main
