@@ -17,9 +17,9 @@ class HighlineWrapper
 
       private def print_default_message(options)
         if !options[:secret]
-          puts "--- Default selected: #{options[:default].empty? ? 'EMPTY' : options[:default]} ---"
+          puts "--- Default selected: #{options[:default].empty? ? 'EMPTY' : options[:default]} ---\n\n"
         elsif options[:secret]
-          puts '--- Default selected: HIDDEN ---'
+          puts "--- Default selected: HIDDEN ---\n\n"
         end
       end
     end

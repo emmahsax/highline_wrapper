@@ -27,7 +27,7 @@ class HighlineWrapper
       end
 
       private def print_default_message(options)
-        puts "--- Default selected: #{options[:default] ? 'YES' : 'NO'} ---"
+        puts "--- Default selected: #{options[:default] ? 'YES' : 'NO'} ---\n\n"
       end
     end
   end

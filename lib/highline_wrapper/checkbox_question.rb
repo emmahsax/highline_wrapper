@@ -29,7 +29,7 @@ class HighlineWrapper
 
       private def print_default_message(options, choices)
         defaults = options[:default_indexes].map { |i| "#{i + 1}. #{choices[i]}".strip }.join(', ')
-        puts "--- Defaults selected: #{defaults} ---"
+        puts "--- Defaults selected: #{defaults} ---\n\n"
       end
 
       private def format_multiple_selections(choices, indices, with_indexes)

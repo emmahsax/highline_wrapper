@@ -5,7 +5,6 @@ class HighlineWrapper
     class << self
       def ask_highline(prompt, secret: false)
         highline.ask(prompt) do |conf|
-          conf.readline = true
           conf.echo = '*' if secret
         end
       end
@@ -23,12 +22,12 @@ class HighlineWrapper
       end
 
       def recurse(prompt, choices, options)
-        puts '--- This question is required ---'
+        puts "--- This question is required ---\n\n"
         choices.nil? ? ask(prompt, options) : ask(prompt, choices, options)
       end
 
       def return_empty_defaults(options)
-        puts '--- Default selected: EMPTY ---' if options[:indicate_default_message]
+        puts "--- Default selected: EMPTY ---\n\n" if options[:indicate_default_message]
         options[:defaults] || options[:default]
       end
 

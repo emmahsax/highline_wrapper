@@ -5,7 +5,7 @@ require 'highline_wrapper'
 
 describe HighlineWrapper::CheckboxQuestion do
   let(:choices) { %w[one two three] }
-  let(:response) { double(:response, readline: true, to_i: 3) }
+  let(:response) { double(:response, to_i: 3) }
   let(:highline) { double(:highline_cli, ask: response) }
 
   before do
