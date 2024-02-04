@@ -22,7 +22,7 @@ class HighlineWrapper
       end
 
       private def print_default_message(options)
-        puts "--- Default selected: #{options[:default_index] + 1}. #{options[:default]} ---"
+        puts "--- Default selected: #{options[:default_index] + 1}. #{options[:default]} ---\n\n"
       end
     end
   end
