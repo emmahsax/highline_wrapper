@@ -21,8 +21,8 @@ Gem::Specification.new do |gem|
   gem.summary               = 'A little HighLine wrapper'
   gem.version               = HighlineWrapper::VERSION
 
-  gem.add_dependency 'highline', '~> 3.0'
   gem.add_dependency 'abbrev', '~> 0.1'
+  gem.add_dependency 'highline', '~> 3.0'
 
   gem.add_development_dependency 'bundler', '~> 2.2'
   gem.add_development_dependency 'faker', '~> 3.0'
