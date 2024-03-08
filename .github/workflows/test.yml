@@ -2,13 +2,10 @@ name: Test
 
 on:
   pull_request:
-  push:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   setup:
-    if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.ref == 'refs/heads/main')
     outputs:
       branch: ${{ steps.set_branch_variable.outputs.branch }}
     runs-on: ubuntu-latest
@@ -17,18 +14,13 @@ jobs:
         name: Set Branch Variable
         uses: emmahsax/github-actions/set-branch-variable@main
 
-  gitleaks:
-    uses: emmahsax/github-actions/.github/workflows/gitleaks.yml@main
-
   rspec:
-    if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.ref == 'refs/heads/main')
     needs: [ setup ]
     uses: emmahsax/github-actions/.github/workflows/rspec.yml@main
     with:
       branch: ${{ needs.setup.outputs.branch }}
 
   rubocop:
-    if: github.event_name == 'pull_request' || !(github.event_name == 'push' && github.ref == 'refs/heads/main')
     needs: [ setup ]
     uses: emmahsax/github-actions/.github/workflows/rubocop.yml@main
     with:

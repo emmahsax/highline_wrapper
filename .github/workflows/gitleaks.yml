@@ -1,0 +1,11 @@
+name: GitLeaks
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  gitleaks:
+    uses: emmahsax/github-actions/.github/workflows/gitleaks.yml@main
