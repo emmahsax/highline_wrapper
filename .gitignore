@@ -4,6 +4,7 @@
 *.o
 *.so
 .DS_Store
+._*
 .idea
 /.bundle/
 /.yardoc
