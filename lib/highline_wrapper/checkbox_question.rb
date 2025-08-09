@@ -16,9 +16,7 @@ class HighlineWrapper
       end
 
       private def ask_highline(prompt)
-        indices = []
-        super(prompt).to_s.split(',').each { |i| indices << (i.strip.to_i - 1) }
-        indices
+        super.to_s.split(',').map { |i| i.strip.to_i - 1 }
       end
 
       private def return_defaults(choices, options)
@@ -33,9 +31,7 @@ class HighlineWrapper
       end
 
       private def format_multiple_selections(choices, indices, with_indexes)
-        selected = []
-        indices.each { |index| selected << format_selection(choices, index, with_indexes) }
-        selected
+        indices.map { |index| format_selection(choices, index, with_indexes) }
       end
     end
   end
