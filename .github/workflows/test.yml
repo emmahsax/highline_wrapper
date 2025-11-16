@@ -16,12 +16,16 @@ jobs:
 
   rspec:
     needs: [ setup ]
-    uses: emmahsax/github-actions/.github/workflows/rspec.yml@main
+    uses: emmahsax/github-actions/.github/workflows/ruby-command.yml@major_refactor
     with:
       branch: ${{ needs.setup.outputs.branch }}
+      command: bundle exec rspec
+      ruby_version: '3.4.5'
 
   rubocop:
     needs: [ setup ]
-    uses: emmahsax/github-actions/.github/workflows/rubocop.yml@main
+    uses: emmahsax/github-actions/.github/workflows/ruby-command.yml@major_refactor
     with:
       branch: ${{ needs.setup.outputs.branch }}
+      command: bundle exec rubocop
+      ruby_version: '3.4.5'
