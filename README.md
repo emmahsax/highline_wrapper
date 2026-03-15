@@ -1,5 +1,15 @@
 # Highline Wrapper
 
+### Archival Notice
+
+This repository has been archived and designated as read-only. From GitHub's documentation:
+
+> This will make the emmahsax/highline_wrapper repository, issues, pull requests, labels, milestones, projects, wiki, releases, commits, tags, branches, reactions and comments read-only and disable any future comments. The repository can still be forked.
+
+To unarchive this repository at any time, please reach out to me at https://emmasax.com/contact-me/.
+
+---
+
 A little wrapper to help ask some easy questions via the command-line with Highline. The types of questions this wrapper supports is:
 
 * Open-ended question
@@ -504,12 +514,3 @@ To make a new release of this gem:
 6. Run `rm *.gem` to clean up your local repository
 
 To set up your local machine to push to RubyGems via the API, see the [RubyGems documentation](https://guides.rubygems.org/publishing/#publishing-to-rubygemsorg).
-
-
-### Archival Notice
-
-This repository has been archived and designated as read-only. From GitHub's documentation:
-
-> This will make the emmahsax/highline_wrapper repository, issues, pull requests, labels, milestones, projects, wiki, releases, commits, tags, branches, reactions and comments read-only and disable any future comments. The repository can still be forked.
-
-To unarchive this repository at any time, please reach out to me at https://emmasax.com/contact-me/.
